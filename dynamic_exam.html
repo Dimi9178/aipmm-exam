@@ -113,6 +113,42 @@
             font-family: 'Spectral', serif;
         }
 
+        .timer.paused {
+            color: var(--warning);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .timer-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .timer-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .timer-btn-quit {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .timer-btn-quit:hover {
+            background: var(--accent);
+            color: white;
+        }
+
         .question-counter {
             font-size: 1.2rem;
             font-weight: 600;
@@ -475,6 +511,14 @@
             <div class="progress-section">
                 <div class="progress-top">
                     <div class="timer" id="timer">90:00</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn" id="pause-btn" onclick="togglePause()" title="Pause timer">
+                            <span id="pause-icon">⏸️ Pause</span>
+                        </button>
+                        <button class="timer-btn timer-btn-quit" onclick="quitExam()" title="Quit and return to intro">
+                            ❌ Quit
+                        </button>
+                    </div>
                     <div class="question-counter">
                         Question <span id="current-q">1</span> of <span id="total-q">50</span>
                     </div>
@@ -1854,6 +1898,8 @@
         let userAnswers = {};
         let startTime;
         let timerInterval;
+        let elapsedTime = 0;
+        let isPaused = false;
 
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -2070,21 +2116,53 @@
         }
 
         function startTimer() {
-            startTime = Date.now();
-            timerInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const remaining = Math.max(0, 5400 - elapsed);
-                const minutes = Math.floor(remaining / 60);
-                const seconds = remaining % 60;
-                document.getElementById('timer').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (remaining === 0) {
-                    clearInterval(timerInterval);
-                    alert('Time is up! Submitting your exam...');
-                    submitExam();
-                }
-            }, 1000);
+            startTime = Date.now() - (elapsedTime * 1000);
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (isPaused) return;
+            
+            elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            const remaining = Math.max(0, 5400 - elapsedTime);
+            const minutes = Math.floor(remaining / 60);
+            const seconds = remaining % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (remaining === 0) {
+                clearInterval(timerInterval);
+                alert('Time is up! Submitting your exam...');
+                submitExam();
+            }
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            const pauseBtn = document.getElementById('pause-icon');
+            const timerElement = document.getElementById('timer');
+            
+            if (isPaused) {
+                pauseBtn.textContent = '▶️ Resume';
+                timerElement.classList.add('paused');
+            } else {
+                pauseBtn.textContent = '⏸️ Pause';
+                timerElement.classList.remove('paused');
+                startTime = Date.now() - (elapsedTime * 1000); // Adjust start time
+            }
+        }
+
+        function quitExam() {
+            if (confirm('Are you sure you want to quit? All progress will be lost.')) {
+                clearInterval(timerInterval);
+                elapsedTime = 0;
+                isPaused = false;
+                examQuestions = [];
+                userAnswers = {};
+                document.getElementById('exam-content').classList.add('hidden');
+                document.getElementById('intro').classList.remove('hidden');
+            }
         }
 
         function submitExam() {
