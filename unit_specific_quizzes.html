@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIPMM Unit-Specific Quizzes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #5b21b6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --bg: #faf5ff;
+            --card-bg: #ffffff;
+            --border: #e9d5ff;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+        }
+
+        h1 {
+            font-family: 'Spectral', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .unit-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .unit-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+            border-color: var(--primary);
+        }
+
+        .unit-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Spectral', serif;
+        }
+
+        .unit-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-family: 'Spectral', serif;
+        }
+
+        .unit-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .unit-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .quiz-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
+            min-height: 500px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .quiz-header h2 {
+            font-family: 'Spectral', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-section {
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .question-counter {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.03);
+            transform: translateX(6px);
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.08);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            flex-shrink: 0;
+            accent-color: var(--primary);
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.05rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--text-light);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        .btn-back-to-units {
+            background: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .results-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            font-family: 'Spectral', serif;
+            margin: 2rem 0;
+        }
+
+        .score-excellent { color: var(--success); }
+        .score-good { color: var(--primary); }
+        .score-needs-work { color: #f59e0b; }
+        .score-poor { color: #ef4444; }
+
+        .review-item {
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+            border-left: 4px solid;
+            text-align: left;
+        }
+
+        .review-correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--success);
+        }
+
+        .review-incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: #ef4444;
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .unit-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 Unit-Specific Quizzes</h1>
+        <p class="subtitle">Focus on individual units to master each topic</p>
+    </div>
+
+    <div class="container">
+        <div id="unit-selection">
+            <div class="unit-selector">
+                <div class="unit-card" onclick="startUnitQuiz(1)">
+                    <div class="unit-number">1</div>
+                    <div class="unit-title">Who, What & Why</div>
+                    <div class="unit-description">PM role, stakeholders, Product-Market Fit, Productside Blueprint</div>
+                    <div class="unit-stats">
+                        <span>15 questions</span>
+                        <span>~20 min</span>
+                    </div>
+                </div>
+
+                <div class="unit-card" onclick="startUnitQuiz(2)">
+                    <div class="unit-number">2</div>
+                    <div class="unit-title">Business Outcomes</div>
+                    <div class="unit-description">Ansoff Matrix, PESTEL, TAM/SAM/SOM, competitive analysis</div>
+                    <div class="unit-stats">
+                        <span>18 questions</span>
+                        <span>~25 min</span>
+                    </div>
+                </div>
+
+                <div class="unit-card" onclick="startUnitQuiz(3)">
+                    <div class="unit-number">3</div>
+                    <div class="unit-title">Customer Needs</div>
+                    <div class="unit-description">Jobs to be Done, personas, empathy interviews, problem statements</div>
+                    <div class="unit-stats">
+                        <span>20 questions</span>
+                        <span>~25 min</span>
+                    </div>
+                </div>
+
+                <div class="unit-card" onclick="startUnitQuiz(4)">
+                    <div class="unit-number">4</div>
+                    <div class="unit-title">Solution Definition</div>
+                    <div class="unit-description">Lo-Fi experiments, positioning, metrics, pricing strategies</div>
+                    <div class="unit-stats">
+                        <span>22 questions</span>
+                        <span>~30 min</span>
+                    </div>
+                </div>
+
+                <div class="unit-card" onclick="startUnitQuiz(5)">
+                    <div class="unit-number">5</div>
+                    <div class="unit-title">Execution & Priority</div>
+                    <div class="unit-description">Roadmaps, prioritization (KANO, WSJF, RICE), launch, GTM</div>
+                    <div class="unit-stats">
+                        <span>28 questions</span>
+                        <span>~35 min</span>
+                    </div>
+                </div>
+
+                <div class="unit-card" onclick="startUnitQuiz(6)">
+                    <div class="unit-number">6</div>
+                    <div class="unit-title">Continuous Improvement</div>
+                    <div class="unit-description">Health metrics, continuous discovery, End of Life</div>
+                    <div class="unit-stats">
+                        <span>17 questions</span>
+                        <span>~20 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz-content" class="hidden">
+            <button class="btn btn-back-to-units" onclick="backToUnits()">← Back to Unit Selection</button>
+            
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h2 id="quiz-title"></h2>
+                    <p id="quiz-description"></p>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-top">
+                        <div class="question-counter">
+                            Question <span id="current-q">1</span> of <span id="total-q">0</span>
+                        </div>
+                        <div style="color: var(--text-light); font-weight: 500;">
+                            <span id="answered-count">0</span> answered
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress"></div>
+                    </div>
+                </div>
+
+                <div id="question-display"></div>
+            </div>
+        </div>
+
+        <div id="results" class="hidden">
+            <div class="results-section">
+                <h2 style="font-family: 'Spectral', serif; font-size: 2.2rem; color: var(--primary);">Quiz Complete!</h2>
+                <div class="score-display" id="score-display"></div>
+                <div id="feedback" style="font-size: 1.2rem; margin: 1.5rem 0;"></div>
+                <div style="margin-top: 2rem;">
+                    <button class="btn" onclick="reviewAnswers()">Review Answers</button>
+                    <button class="btn btn-secondary" onclick="backToUnits()" style="margin-left: 1rem;">Try Another Unit</button>
+                </div>
+                <div id="review" class="hidden" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const unitQuestions = {
+            1: [
+                {question: "What is the primary responsibility of a Product Manager?", options: ["Writing detailed technical specifications", "Ensuring the product brings value to users and the company", "Managing the development team's daily tasks", "Creating marketing campaigns"], correct: 1},
+                {question: "Which is primarily a Product Owner responsibility?", options: ["Competitive analysis", "Pricing strategy", "Backlog refinement", "End of life planning"], correct: 2},
+                {question: "Stakeholder Alignment Template axes represent:", options: ["Budget and Timeline", "Level of interest and Level of power", "Customer satisfaction and Business value", "Risk and Opportunity"], correct: 1},
+                {question: "Products can go through Product Lifecycle phases:", options: ["Only once in linear order", "Multiple times non-linearly", "Only forward never backward", "Must reach Decline"], correct: 1},
+                {question: "Product-Market Fit requires all EXCEPT:", options: ["Value", "Feasible", "Scalable", "Viable"], correct: 2},
+                {question: "Outputs vs Outcomes: Outputs are deliverables while outcomes are:", options: ["Strategic plans", "Results or impacts of deliverables", "Financial metrics", "The same thing"], correct: 1},
+                {question: "Stakeholder Alignment Template should be updated:", options: ["Daily", "Weekly", "Every 4-6 weeks", "Annually"], correct: 2},
+                {question: "In Introduction stage, pricing strategy is typically:", options: ["Always low", "Always high", "Skimming or penetration", "Match competitors"], correct: 2},
+                {question: "During Growth stage, marketing objective is to:", options: ["Gain awareness", "Stress differentiation", "Maintain loyalty", "Harvest"], correct: 1},
+                {question: "Product Manager and Product Owner both handle:", options: ["Daily standups", "Code review", "Vision and roadmap", "Sprint velocity"], correct: 2},
+                {question: "In Maturity stage, the goal is to:", options: ["Gain awareness", "Stress differentiation", "Maintain brand loyalty", "Harvest"], correct: 2},
+                {question: "Value in Product-Market Fit asks:", options: ["Can we do this?", "Should we do this?", "Do customers want this?", "Is it scalable?"], correct: 2},
+                {question: "Product Managers should balance:", options: ["Technical and Business", "Strategic and Urgent tasks", "Internal and External", "Short and Long-term"], correct: 1},
+                {question: "Stakeholders include all EXCEPT:", options: ["People who benefit", "People invested in product", "Competitors", "People with negative consequences"], correct: 2},
+                {question: "The Productside Blueprint is applied:", options: ["Only at Introduction", "At every Product Lifecycle stage", "Only when problems arise", "Only for new products"], correct: 1}
+            ],
+            2: [
+                {question: "Business Outcomes answer which question?", options: ["What features to build?", "When to launch?", "What measurable results to achieve?", "How many developers needed?"], correct: 2},
+                {question: "Ansoff: Existing products to new markets is:", options: ["Market Penetration", "Product Development", "Market Development", "Diversification"], correct: 2},
+                {question: "PESTEL 'T' stands for:", options: ["Tactical", "Technological", "Territorial", "Temporal"], correct: 1},
+                {question: "TAM, SAM, SOM relationship:", options: ["TAM > SAM > SOM", "SOM > SAM > TAM", "All equal", "SAM > TAM > SOM"], correct: 0},
+                {question: "TAM is:", options: ["Total Addressable Market", "Target Audience Measurement", "Technical Asset Management", "Time-to-Market"], correct: 0},
+                {question: "Highest risk Ansoff strategy:", options: ["Market Penetration", "Product Development", "Market Development", "Diversification"], correct: 3},
+                {question: "PESTEL 'E' represents:", options: ["Efficiency", "Economic and Environmental", "External", "Enterprise"], correct: 1},
+                {question: "SOM represents:", options: ["Total market", "Relevant market share", "Share you can potentially reach", "All markets"], correct: 2},
+                {question: "Market Penetration goal:", options: ["Enter new markets", "Develop new products", "Drive repeat purchases from existing", "New value proposition"], correct: 2},
+                {question: "Business Outcomes should NOT:", options: ["Align with strategic goals", "Be measurable", "Prescribe a solution", "Deliver stakeholder value"], correct: 2},
+                {question: "SAM stands for:", options: ["Strategic Addressable Market", "Serviceable Addressable Market", "Sales and Marketing", "Segment Addressable Market"], correct: 1},
+                {question: "PESTEL 'P' is:", options: ["Product", "Political", "Pricing", "Performance"], correct: 1},
+                {question: "Competitive Analysis excludes:", options: ["Market share", "Their strategy", "Internal team morale", "Product comparison"], correct: 2},
+                {question: "Outputs answer:", options: ["Why create?", "What did we create?", "Who benefits?", "What impact?"], correct: 1},
+                {question: "Product Development in Ansoff means:", options: ["Existing in existing", "New products for underserved needs", "New markets", "Diversification"], correct: 1},
+                {question: "Outcomes answer:", options: ["What created?", "When created?", "What impact did outputs have?", "How many created?"], correct: 2},
+                {question: "PESTEL 'L' is:", options: ["Leadership", "Legal", "Logistics", "Lifecycle"], correct: 1},
+                {question: "Strategic Outcomes should:", options: ["Be kept secret", "Change daily", "Provide context and alignment", "Only focus on revenue"], correct: 2}
+            ],
+            3: [
+                {question: "Product outcomes should include:", options: ["Features, Timeline, Budget", "Direction, Metrics, Outcomes, Context", "Stakeholders, Developers", "Price, Promotion, Place"], correct: 1},
+                {question: "Customer problem is:", options: ["A specific need or pain point", "A support complaint", "A feature request", "Development issue"], correct: 0},
+                {question: "Jobs to be Done excludes:", options: ["Functional Jobs", "Social Jobs", "Emotional Jobs", "Technical Jobs"], correct: 3},
+                {question: "Segment vs Persona:", options: ["B2B vs B2C", "WHERE vs WHO", "More detailed vs less", "No difference"], correct: 1},
+                {question: "Empathy Interview ratio:", options: ["50/50", "70% listening, 30% talking", "30/70", "90/10"], correct: 1},
+                {question: "Proto-persona is:", options: ["Most important persona", "Market-unvalidated persona", "Internal only", "Competitor customers"], correct: 1},
+                {question: "Problem statement perspective:", options: ["Product manager", "Dev team", "A persona", "Executives"], correct: 2},
+                {question: "Problem statement includes: 'I am', 'Trying to', 'But', 'Because', and:", options: ["'I need'", "'Which makes me feel'", "'Therefore'", "'In order to'"], correct: 1},
+                {question: "Outcome Tree is used to:", options: ["Organize sprints", "Connect work with business outcomes", "Track competitors", "Measure satisfaction"], correct: 1},
+                {question: "Prioritizing outcomes considers:", options: ["Only feasibility", "Only strategic alignment", "Both strategic alignment and feasibility", "Developer preferences"], correct: 2},
+                {question: "Affinity Mapping organizes:", options: ["Roadmaps", "Data into meaningful categories", "Dev velocity", "Pricing"], correct: 1},
+                {question: "Functional Jobs help customers:", options: ["Feel good", "Seem professional", "Complete tasks", "Save money"], correct: 2},
+                {question: "Social Jobs help customers:", options: ["Do something", "Seem a certain way", "Feel a certain way", "Save time"], correct: 1},
+                {question: "Open-ended questions should:", options: ["Be yes/no", "Lead to answer", "Foster storytelling", "Focus on features"], correct: 2},
+                {question: "B2C segmentation excludes:", options: ["Demographics", "Psychographic", "Firmographic", "Behavioral"], correct: 2},
+                {question: "Who should use personas?", options: ["Only PMs", "Only marketing", "Everyone in business", "Only executives"], correct: 2},
+                {question: "Building a persona includes:", options: ["Only demographics", "Only goals", "Bio, pains, goals, quotes, attitudes", "Only budget"], correct: 2},
+                {question: "Empathy interviews focus on:", options: ["Selling products", "User experiences and emotions", "Technical specs", "Competitor analysis"], correct: 1},
+                {question: "Problem statement purpose:", options: ["Position product", "Tell story and focus efforts", "Replace business case", "Document requirements"], correct: 1},
+                {question: "Firmographic is for:", options: ["B2C", "B2B", "Both equally", "Only enterprise"], correct: 1}
+            ],
+            4: [
+                {question: "'How Might We' questions:", options: ["Document problems", "Provoke creativity and reframe", "Validate outcomes", "Measure success"], correct: 1},
+                {question: "Solution Hypothesis uses:", options: ["'When...Then'", "'If...Then'", "'Because...Therefore'", "'Given...When...Then'"], correct: 1},
+                {question: "Lo-Fi Experiments are:", options: ["High cost, long", "Low cost, measurable outcomes", "Need full product", "Software only"], correct: 1},
+                {question: "Wizard of Oz test:", options: ["Shows manual service", "Hides manual service from user", "Automated testing", "Video only"], correct: 1},
+                {question: "Positioning Statement excludes:", options: ["FOR (target)", "THE (Product)", "COSTS (Pricing)", "UNLIKE (Competition)"], correct: 2},
+                {question: "Good success metric:", options: ["Easy to measure", "Has direction, understandable, actionable", "Shows big numbers", "Matches competitors"], correct: 1},
+                {question: "Vanity metric example:", options: ["Retention rate", "NPS", "App downloads", "MRR"], correct: 2},
+                {question: "Product Outcome Canvas:", options: ["Replaces business case", "Gives stakeholders info to decide", "Documents tech specs", "Tracks timelines"], correct: 1},
+                {question: "'How Might We' should be:", options: ["Very narrow", "Very broad", "Neither too narrow nor broad", "Yes/no"], correct: 2},
+                {question: "Concierge Test:", options: ["Hides manual", "Offers manual service openly", "Automated", "Video"], correct: 1},
+                {question: "Landing Page tests:", options: ["Replace product", "Collect data without product", "E-commerce only", "Post-launch only"], correct: 1},
+                {question: "Storyboarding uses user as:", options: ["Villain", "Hero", "Supporting", "Narrator"], correct: 1},
+                {question: "Use Lo-Fi when:", options: ["Never", "Significant risk or high cost", "B2C only", "End of dev"], correct: 1},
+                {question: "Competitive matrix helps:", options: ["Copy features", "Visualize product comparison", "Set identical pricing", "Avoid differentiation"], correct: 1},
+                {question: "Positioning 'THAT' is:", options: ["Target customer", "Product category", "Key benefit", "Competition"], correct: 2},
+                {question: "Success metrics start with:", options: ["A number", "A direction (increase/decrease)", "Feature name", "Competitor"], correct: 1},
+                {question: "Cost-Based Pricing ensures:", options: ["Max value", "Profitability and stability", "Differentiation", "Customer max pay"], correct: 1},
+                {question: "Value-Based works for:", options: ["Commodities", "Niche with unique value", "All equally", "Many competitors"], correct: 1},
+                {question: "Pricing adjustments handled by:", options: ["PM only", "CEO", "Revenue/sales ops", "Dev team"], correct: 2},
+                {question: "Problem and solution space:", options: ["Separate", "Feed each other continuously", "Only at launch", "Never overlap"], correct: 1},
+                {question: "Crowdfunding allows:", options: ["Up-front investment based on proposition", "Avoid building", "Replace testing", "Guarantee success"], correct: 0},
+                {question: "Product Outcome Canvas is used for:", options: ["Marketing only", "Stakeholder decision-making", "Dev planning", "Competitor tracking"], correct: 1}
+            ],
+            5: [
+                {question: "Outcome-based roadmaps focus on:", options: ["Detailed features", "Outcomes rather than outputs", "Exact dates", "Developer assignments"], correct: 1},
+                {question: "NOW, NEXT, LATER represent:", options: ["Mandatory deadlines", "Confidence levels and time horizons", "Stakeholder priorities", "Team capacity"], correct: 1},
+                {question: "NOW bucket typically:", options: [">70% confidence, ~6 months", "50%, 1-2 years", "<30%, 3-5 years", "100%, 1 month"], correct: 0},
+                {question: "Tiny Acts of Discovery are:", options: ["Delays", "Small low-risk experiments", "Avoid decisions", "Replace Build-Measure-Learn"], correct: 1},
+                {question: "KANO excludes:", options: ["Must Have", "Delighter", "Nice to Have", "Indifference"], correct: 2},
+                {question: "WSJF Cost of Delay:", options: ["(BV) / (JD)", "(BV + TC + RR) / JD", "(I × C) / E", "(R × I × C) / E"], correct: 1},
+                {question: "RICE stands for:", options: ["Revenue, Impact, Cost, Effort", "Reach, Impact, Confidence, Effort", "Risk, Innovation, Customer, Engagement", "Return, Investment, Capability, Execution"], correct: 1},
+                {question: "Which includes 'Advantage to Us'?", options: ["KANO", "WSJF", "RICE", "IDEA/E"], correct: 3},
+                {question: "Launch Readiness purpose:", options: ["Delay until perfect", "Minimize risk, maximize success", "Create project plans", "Assign blame"], correct: 1},
+                {question: "Dark Launch is:", options: ["Night launch", "Small % release to test", "Failed launch", "No marketing"], correct: 1},
+                {question: "Launch Readiness pillars:", options: ["Product, Market, Sales", "Product, Market, Organizational Readiness", "Planning, Execution, Measurement", "Discovery, Development, Delivery"], correct: 1},
+                {question: "Key Messages focus on:", options: ["Tech specs", "Benefits not features", "Competitor weakness", "Pricing"], correct: 1},
+                {question: "Proof Points provide:", options: ["Key Messages", "Reason to believe", "Positioning", "Value Props"], correct: 1},
+                {question: "Roadmap is NOT:", options: ["Stakeholder communication", "Detailed project plan", "Living document", "Strategy embodiment"], correct: 1},
+                {question: "Internal roadmaps:", options: ["Communicate to customers", "Align resources and investments", "Replace business case", "Track competitors"], correct: 1},
+                {question: "NEXT bucket:", options: [">70%", "50% confidence, 1-2 years", "<30%", "100%"], correct: 1},
+                {question: "Assumptions types:", options: ["Only desirability", "Desirability, Viability, Feasibility, Usability", "Only technical", "Only business"], correct: 1},
+                {question: "Product-Market Fit through:", options: ["Guessing", "Build-Measure-Learn Loop", "Copying", "HiPPO"], correct: 1},
+                {question: "KANO ideal for:", options: ["Prioritizing MVP features", "Financial forecasting", "Team building", "Competitive analysis"], correct: 0},
+                {question: "RICE limitation:", options: ["Too simple", "Seems objective but inputs subjective", "B2B only", "Too long"], correct: 1},
+                {question: "Four Quadrant uses:", options: ["Cost/Risk vs Value", "Only cost", "Only value", "Time vs Money"], correct: 0},
+                {question: "Feature Buying gives dev team:", options: ["No voice", "Stronger voice via cost assignment", "Final decision", "Budget control"], correct: 1},
+                {question: "Canary Release:", options: ["All customers", "Small % to reduce risk", "Never release", "Internal only"], correct: 1},
+                {question: "Beta Program:", options: ["All customers", "Select set before commercial", "Internal only", "Competitors"], correct: 1},
+                {question: "Proof Points include:", options: ["Only opinions", "Testimonials, testing, validation, facts", "Only slogans", "Competitor weakness"], correct: 1},
+                {question: "Roadmap for Sales emphasizes:", options: ["Tech details", "Customer and segment targeting", "Developer tasks", "Bug fixes"], correct: 1},
+                {question: "Tiny Acts should be:", options: ["Expensive, time-consuming", "Quick, inexpensive, easy", "Once only", "Avoided"], correct: 1},
+                {question: "HiPPO stands for:", options: ["High Impact Performance", "Highest Paid Person's Opinion", "Highly Productive Owner", "Historical Performance"], correct: 1}
+            ],
+            6: [
+                {question: "Health Metrics monitor:", options: ["Revenue, Profit, Growth, Share", "Depth, Breadth, Frequency, Sentiment", "Acquisition, Activation, Retention, Revenue", "Users, Sessions, Engagement, Conversion"], correct: 1},
+                {question: "Outcomes, Success, Health Metrics:", options: ["All same", "Outcomes=want; Success=track; Health=monitor", "Health→Success→Outcomes", "Only Health matters"], correct: 1},
+                {question: "Continuous Discovery returns to:", options: ["Create", "Deliver", "Discover and Investigate", "Define"], correct: 2},
+                {question: "Saying 'no' framework:", options: ["Just say no", "Listen, recap, reframe, trade-offs, say no/not now", "Agree to all", "Redirect to manager"], correct: 1},
+                {question: "Think about End of Life:", options: ["When sales decline", "When competitors launch", "When first developing product", "Never"], correct: 2},
+                {question: "Process Retrospective:", options: ["Assign blame", "Reflect on improvements for future", "Document features", "Plan sprint"], correct: 1},
+                {question: "End of Life balances:", options: ["Customer and company goals", "Revenue and costs", "Old and new products", "Internal and external"], correct: 0},
+                {question: "Depth measures:", options: ["User count", "Feature usage depth", "Visit frequency", "Customer feeling"], correct: 1},
+                {question: "Breadth measures:", options: ["Feature usage", "How many users", "Time spent", "Satisfaction"], correct: 1},
+                {question: "Continuous discovery sources:", options: ["Only interviews", "Only analytics", "Interviews, competitors, feedback, trends, analytics, experiments", "Only surveys"], correct: 2},
+                {question: "HiPPO is:", options: ["High Impact Objective", "Highest Paid Person's Opinion", "Highly Productive Owner", "Historical Outcome"], correct: 1},
+                {question: "Handle HiPPO by:", options: ["Always agree", "Depersonalize and bring data", "Ignore", "Escalate"], correct: 1},
+                {question: "RHiNO from:", options: ["Engineering", "Sales", "Marketing", "Finance"], correct: 1},
+                {question: "Handle ZEbRA by:", options: ["Agree with gut", "Research and lo-fi experiments", "Ignore", "Build immediately"], correct: 1},
+                {question: "Customer End of Life goals:", options: ["Immediate shutdown", "Maintain loyalty and meet needs", "No communication", "Forced upgrades"], correct: 1},
+                {question: "Company End of Life goals:", options: ["Exit ASAP while meeting obligations", "Ignore customers", "Continue dev", "Lower quality"], correct: 0},
+                {question: "Retrospective benefits:", options: ["Only failures", "Continuous improvement, collaboration, communication", "Slow team", "Blame"], correct: 1}
+            ]
+        };
+
+        const unitTitles = {
+            1: "Unit 1: Who, What & Why of Product Management",
+            2: "Unit 2: Business Outcomes and Market Forces",
+            3: "Unit 3: Discover & Investigate Customer Needs",
+            4: "Unit 4: Discover & Define Solutions for Market Fit",
+            5: "Unit 5: Create - Execution Based on Outcomes",
+            6: "Unit 6: Deliver - Adapt & Improve Continuously"
+        };
+
+        let currentUnit = null;
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function shuffleOptions(question) {
+            // Create array of option indices
+            const indices = question.options.map((_, i) => i);
+            const shuffledIndices = shuffleArray(indices);
+            
+            // Create new shuffled options
+            const shuffledOptions = shuffledIndices.map(i => question.options[i]);
+            
+            // Find where the correct answer moved to
+            const newCorrectIndex = shuffledIndices.indexOf(question.correct);
+            
+            return {
+                ...question,
+                options: shuffledOptions,
+                correct: newCorrectIndex
+            };
+        }
+
+        function startUnitQuiz(unitNumber) {
+            currentUnit = unitNumber;
+            currentQuestions = unitQuestions[unitNumber].map(q => shuffleOptions(q));
+            currentQuestionIndex = 0;
+            userAnswers = {};
+
+            document.getElementById('unit-selection').classList.add('hidden');
+            document.getElementById('quiz-content').classList.remove('hidden');
+            
+            document.getElementById('quiz-title').textContent = unitTitles[unitNumber];
+            document.getElementById('total-q').textContent = currentQuestions.length;
+            
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            const question = currentQuestions[index];
+            const container = document.getElementById('question-display');
+            
+            document.getElementById('current-q').textContent = index + 1;
+            updateProgress();
+
+            container.innerHTML = `
+                <div class="question-text">${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, i) => `
+                        <div class="option ${userAnswers[index] === i ? 'selected' : ''}" onclick="selectOption(${index}, ${i})">
+                            <input type="radio" 
+                                   id="q${index}_${i}" 
+                                   name="q${index}" 
+                                   value="${i}"
+                                   ${userAnswers[index] === i ? 'checked' : ''}>
+                            <label for="q${index}_${i}">${option}</label>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${index === 0 ? 'disabled' : ''}>
+                        ← Previous
+                    </button>
+                    ${index < currentQuestions.length - 1 ? 
+                        `<button class="btn" onclick="nextQuestion()">Next →</button>` :
+                        `<button class="btn btn-success" onclick="submitQuiz()">Submit Quiz</button>`
+                    }
+                </div>
+            `;
+
+            window.scrollTo(0, 0);
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            userAnswers[questionIndex] = optionIndex;
+            showQuestion(questionIndex);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(userAnswers).length;
+            document.getElementById('answered-count').textContent = answered;
+            const progress = (answered / currentQuestions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function submitQuiz() {
+            if (!confirm('Submit your quiz?')) return;
+            
+            let correct = 0;
+            currentQuestions.forEach((q, index) => {
+                if (userAnswers[index] === q.correct) correct++;
+            });
+
+            displayResults(correct);
+        }
+
+        function displayResults(correct) {
+            const percentage = Math.round((correct / currentQuestions.length) * 100);
+            
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+
+            const scoreDisplay = document.getElementById('score-display');
+            scoreDisplay.textContent = `${correct} / ${currentQuestions.length} (${percentage}%)`;
+
+            let scoreClass, feedback;
+            if (percentage >= 90) {
+                scoreClass = 'score-excellent';
+                feedback = `🎉 Excellent! You've mastered ${unitTitles[currentUnit]}!`;
+            } else if (percentage >= 70) {
+                scoreClass = 'score-good';
+                feedback = `👍 Good job! You understand ${unitTitles[currentUnit]} well.`;
+            } else if (percentage >= 50) {
+                scoreClass = 'score-needs-work';
+                feedback = `📚 Keep studying ${unitTitles[currentUnit]}.`;
+            } else {
+                scoreClass = 'score-poor';
+                feedback = `⚠️ Review ${unitTitles[currentUnit]} materials.`;
+            }
+
+            scoreDisplay.className = `score-display ${scoreClass}`;
+            document.getElementById('feedback').textContent = feedback;
+        }
+
+        function reviewAnswers() {
+            const reviewSection = document.getElementById('review');
+            reviewSection.classList.remove('hidden');
+            reviewSection.innerHTML = '<h3 style="font-family: Spectral, serif; color: var(--primary); margin: 2rem 0 1.5rem;">Answer Review</h3>';
+
+            currentQuestions.forEach((q, index) => {
+                const isCorrect = userAnswers[index] === q.correct;
+                const div = document.createElement('div');
+                div.className = `review-item ${isCorrect ? 'review-correct' : 'review-incorrect'}`;
+                div.innerHTML = `
+                    <strong>Q${index + 1}:</strong> ${q.question}<br>
+                    <strong>Your answer:</strong> ${userAnswers[index] !== undefined ? q.options[userAnswers[index]] : 'Not answered'}<br>
+                    ${!isCorrect ? `<strong style="color: #ef4444;">Correct:</strong> ${q.options[q.correct]}` : ''}
+                `;
+                reviewSection.appendChild(div);
+            });
+        }
+
+        function backToUnits() {
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('unit-selection').classList.remove('hidden');
+            currentUnit = null;
+            currentQuestions = [];
+            userAnswers = {};
+        }
+    </script>
+</body>
+</html>

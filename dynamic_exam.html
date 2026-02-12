@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIPMM Dynamic Practice Exam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #2d3748;
+            --text-light: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Spectral', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .intro-section h2 {
+            font-family: 'Spectral', serif;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .intro-section ul {
+            margin-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .intro-section li {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .progress-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-family: 'Spectral', serif;
+        }
+
+        .question-counter {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--primary));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary);
+            min-height: 400px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .question-number {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .unit-badge {
+            background: var(--border);
+            color: var(--text-light);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(26, 54, 93, 0.02);
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(26, 54, 93, 0.05);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.05rem;
+        }
+
+        .matching-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .matching-instructions {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .match-pair {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .match-label {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 200px;
+            font-size: 1.05rem;
+        }
+
+        .match-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .match-pair select {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Work Sans', sans-serif;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .match-pair select:hover {
+            border-color: var(--primary);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 54, 93, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--text-light);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #2f855a);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--success), #2f855a);
+            font-size: 1.2rem;
+            padding: 1.25rem 3rem;
+        }
+
+        .results-section {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            font-family: 'Spectral', serif;
+            margin: 2rem 0;
+        }
+
+        .score-excellent { color: var(--success); }
+        .score-good { color: var(--primary); }
+        .score-needs-work { color: var(--warning); }
+        .score-poor { color: var(--accent); }
+
+        .feedback {
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            line-height: 1.8;
+        }
+
+        .review-section {
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .review-item {
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .review-correct {
+            background: rgba(56, 161, 105, 0.1);
+            border-left-color: var(--success);
+        }
+
+        .review-incorrect {
+            background: rgba(229, 62, 62, 0.1);
+            border-left-color: var(--accent);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .question-navigation-dots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .nav-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-dot:hover {
+            border-color: var(--primary);
+        }
+
+        .nav-dot.answered {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .nav-dot.current {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .question-container {
+                padding: 1.5rem;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .score-display {
+                font-size: 3rem;
+            }
+
+            .match-pair {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .match-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>AIPMM Dynamic Practice Exam</h1>
+            <p class="subtitle">Randomized questions from expanded database • New questions every time</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="intro" class="intro-section">
+            <h2>Welcome to Your Dynamic Practice Exam</h2>
+            <p><strong>This exam features a large question database with randomized selection:</strong></p>
+            <ul>
+                <li>50 questions randomly selected from 100+ question database</li>
+                <li>Each attempt presents different questions</li>
+                <li>Includes multiple choice and drag-and-drop matching questions</li>
+                <li>One question at a time with easy navigation</li>
+                <li>Recommended time: 90 minutes</li>
+                <li>Passing score: 70% (35 correct answers)</li>
+                <li>Instant results with detailed feedback</li>
+            </ul>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-start" onclick="startExam()">Start Exam</button>
+            </div>
+        </div>
+
+        <div id="exam-content" class="hidden">
+            <div class="progress-section">
+                <div class="progress-top">
+                    <div class="timer" id="timer">90:00</div>
+                    <div class="question-counter">
+                        Question <span id="current-q">1</span> of <span id="total-q">50</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+            </div>
+
+            <div id="question-display" class="question-container"></div>
+
+            <div class="question-navigation-dots" id="nav-dots"></div>
+        </div>
+
+        <div id="results" class="results-section">
+            <h2 style="font-family: 'Spectral', serif; font-size: 2rem; color: var(--primary);">Your Results</h2>
+            <div class="score-display" id="score-display"></div>
+            <div class="feedback" id="feedback"></div>
+            <div style="margin-top: 2rem;">
+                <button class="btn" onclick="reviewAnswers()">Review Answers</button>
+                <button class="btn" onclick="location.reload()" style="margin-left: 1rem; background: var(--text-light);">Take New Exam</button>
+            </div>
+            <div id="review" class="review-section hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        // Expanded question database (100+ questions)
+        const questionDatabase = [
+            // Unit 1 Questions (15 questions)
+            {
+                unit: "Unit 1",
+                question: "What is the primary responsibility of a Product Manager?",
+                options: [
+                    "Writing detailed technical specifications for developers",
+                    "Ensuring the product brings value to users and the company",
+                    "Managing the development team's daily tasks",
+                    "Creating marketing campaigns for product launches"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 1",
+                question: "Which of the following is primarily a Product Owner responsibility rather than a Product Manager responsibility?",
+                options: [
+                    "Competitive analysis",
+                    "Pricing strategy",
+                    "Backlog refinement",
+                    "End of life planning"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "In the Stakeholder Alignment Template, stakeholders should be charted on two axes. What do these axes represent?",
+                options: [
+                    "Budget and Timeline",
+                    "Level of interest and Level of power",
+                    "Customer satisfaction and Business value",
+                    "Risk and Opportunity"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 1",
+                question: "The Product Lifecycle consists of four stages. Which statement is TRUE about these stages?",
+                options: [
+                    "Products always move linearly from Introduction to Decline",
+                    "Products can go through each phase multiple times",
+                    "Once a product reaches Maturity, it cannot return to Growth",
+                    "All products must eventually reach the Decline stage"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 1",
+                question: "Product-Market Fit is achieved at the intersection of three elements. Which of the following is NOT one of them?",
+                options: [
+                    "Value (do customers want this?)",
+                    "Feasible (can we do this?)",
+                    "Scalable (can we grow this?)",
+                    "Viable (should we do this?)"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "What is the key difference between Outputs and Outcomes?",
+                options: [
+                    "Outputs are strategic; outcomes are tactical",
+                    "Outputs are deliverables; outcomes are the results or impacts of those deliverables",
+                    "Outputs are measured in dollars; outcomes are measured in user satisfaction",
+                    "There is no meaningful difference between the two"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 1",
+                question: "How often should the Stakeholder Alignment Template be updated?",
+                options: [
+                    "Daily",
+                    "Weekly",
+                    "Every 4-6 weeks",
+                    "Annually"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "In the Product Lifecycle's Introduction stage, what is the typical pricing strategy?",
+                options: [
+                    "Always low penetration pricing",
+                    "Always high premium pricing",
+                    "Either skimming or penetration pricing",
+                    "Match competitor pricing"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "During which Product Lifecycle stage should you 'stress differentiation'?",
+                options: [
+                    "Introduction",
+                    "Growth",
+                    "Maturity",
+                    "Decline"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 1",
+                question: "What overlaps between Product Manager and Product Owner roles?",
+                options: [
+                    "Daily standup facilitation",
+                    "Code review",
+                    "Vision and roadmap creation",
+                    "Sprint velocity tracking"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "In the Maturity stage of the Product Lifecycle, the marketing objective is to:",
+                options: [
+                    "Gain awareness",
+                    "Stress differentiation",
+                    "Maintain brand loyalty",
+                    "Harvest and deletion"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "Which element of Product-Market Fit asks 'Does it solve a big enough problem?'",
+                options: [
+                    "Viable",
+                    "Feasible",
+                    "Value",
+                    "Scalable"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "Product Managers should balance between which two types of tasks?",
+                options: [
+                    "Technical and Business",
+                    "Strategic and Urgent",
+                    "Internal and External",
+                    "Short-term and Long-term"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 1",
+                question: "Stakeholders include all EXCEPT:",
+                options: [
+                    "People who benefit from the product",
+                    "People invested in the product",
+                    "Competitors",
+                    "People who experience negative consequences"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 1",
+                question: "The Productside Blueprint is applied at:",
+                options: [
+                    "Only the Introduction stage",
+                    "Every stage of the Product Lifecycle",
+                    "Only when problems arise",
+                    "Only for new products"
+                ],
+                correct: 1
+            },
+
+            // Unit 2 Questions (18 questions)
+            {
+                unit: "Unit 2",
+                question: "Which question does a Business Outcome answer?",
+                options: [
+                    "What features should we build?",
+                    "When should we launch?",
+                    "What measurable results is the business working to achieve?",
+                    "How many developers do we need?"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "In the Ansoff Growth Matrix, which strategy involves taking existing products to new markets?",
+                options: [
+                    "Market Penetration",
+                    "Product Development",
+                    "Market Development",
+                    "Diversification"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "PESTEL Analysis helps product managers understand market forces. What does the 'T' in PESTEL stand for?",
+                options: [
+                    "Tactical",
+                    "Technological",
+                    "Territorial",
+                    "Temporal"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "What is the relationship between TAM, SAM, and SOM?",
+                options: [
+                    "TAM > SAM > SOM",
+                    "SOM > SAM > TAM",
+                    "They are all equal in size",
+                    "SAM > TAM > SOM"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 2",
+                question: "TAM stands for:",
+                options: [
+                    "Total Addressable Market",
+                    "Target Audience Measurement",
+                    "Technical Asset Management",
+                    "Time-to-Market Analysis"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 2",
+                question: "According to the Ansoff Growth Matrix, which strategy represents the highest risk?",
+                options: [
+                    "Market Penetration",
+                    "Product Development",
+                    "Market Development",
+                    "Diversification"
+                ],
+                correct: 3
+            },
+            {
+                unit: "Unit 2",
+                question: "What does the 'E' in PESTEL stand for?",
+                options: [
+                    "Efficiency and Execution",
+                    "Economic and Environmental",
+                    "External and Ethical",
+                    "Enterprise and Engagement"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "SOM (Serviceable Obtainable Market) represents:",
+                options: [
+                    "Total potential market for your product",
+                    "Share of market relevant for your product",
+                    "Share of the market you can potentially reach",
+                    "All markets globally"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "In Market Penetration strategy, the goal is to:",
+                options: [
+                    "Enter new markets",
+                    "Develop new products",
+                    "Drive repeat purchases and take customers from competition",
+                    "Deliver a new value proposition"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "Business Outcomes should NOT:",
+                options: [
+                    "Align with strategic goals",
+                    "Be measurable",
+                    "Prescribe a particular solution",
+                    "Deliver value for stakeholders"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "What does SAM stand for in market sizing?",
+                options: [
+                    "Strategic Addressable Market",
+                    "Serviceable Addressable Market",
+                    "Sales and Marketing",
+                    "Segment Addressable Market"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "The 'P' in PESTEL refers to:",
+                options: [
+                    "Product factors",
+                    "Political factors",
+                    "Pricing factors",
+                    "Performance factors"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "Competitive Analysis should include all EXCEPT:",
+                options: [
+                    "Market share",
+                    "Their strategy",
+                    "Internal team morale",
+                    "Product comparison"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "Outputs answer which question?",
+                options: [
+                    "Why did we create this?",
+                    "What did we create?",
+                    "Who benefits from this?",
+                    "What impact did this have?"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "In the Ansoff Matrix, Product Development means:",
+                options: [
+                    "Selling existing products in existing markets",
+                    "Fulfilling underserved needs with new products",
+                    "Entering new markets",
+                    "Complete diversification"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "What question does 'Outcomes' answer?",
+                options: [
+                    "What did we create?",
+                    "When did we create it?",
+                    "What impact did our outputs have?",
+                    "How many did we create?"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 2",
+                question: "The 'L' in PESTEL stands for:",
+                options: [
+                    "Leadership",
+                    "Legal",
+                    "Logistics",
+                    "Lifecycle"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 2",
+                question: "Strategic Outcomes should:",
+                options: [
+                    "Be kept secret from the team",
+                    "Change daily based on market conditions",
+                    "Provide context and alignment for product decisions",
+                    "Only focus on revenue"
+                ],
+                correct: 2
+            },
+
+            // Unit 3 Questions (20 questions)
+            {
+                unit: "Unit 3",
+                question: "When expressing product outcomes, your statement should include which of the following elements?",
+                options: [
+                    "Features, Timeline, Budget, Resources",
+                    "Direction, Metrics, Outcomes, Context",
+                    "Stakeholders, Developers, Customers, Partners",
+                    "Price, Promotion, Place, Product"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "What is a 'customer problem' in product management?",
+                options: [
+                    "A specific need, pain point, or challenge experienced by a customer",
+                    "A complaint filed through customer support",
+                    "A feature request from a stakeholder",
+                    "Any issue that delays product development"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 3",
+                question: "Jobs to be Done framework identifies three types of jobs. Which is NOT one of them?",
+                options: [
+                    "Functional Jobs ('Help me do...')",
+                    "Social Jobs ('Help me seem...')",
+                    "Emotional Jobs ('Help me feel...')",
+                    "Technical Jobs ('Help me code...')"
+                ],
+                correct: 3
+            },
+            {
+                unit: "Unit 3",
+                question: "What is the difference between a Segment and a Persona?",
+                options: [
+                    "Segments are for B2B; personas are for B2C",
+                    "Segments tell you WHERE your customers are; personas tell you WHO they are",
+                    "Segments are more detailed than personas",
+                    "There is no difference; they are the same thing"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "In an Empathy Interview, what is the recommended ratio of listening to talking?",
+                options: [
+                    "50% listening, 50% talking",
+                    "70% listening, 30% talking",
+                    "30% listening, 70% talking",
+                    "90% listening, 10% talking"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "What is a proto-persona?",
+                options: [
+                    "The most important persona in your target market",
+                    "A market-unvalidated persona that must be validated before widespread use",
+                    "A persona used only for internal stakeholders",
+                    "A persona that represents your competitors' customers"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "A problem statement should be written from the perspective of:",
+                options: [
+                    "The product manager",
+                    "The development team",
+                    "A persona",
+                    "Company executives"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "The problem statement framework includes five elements: 'I am...', 'Trying to...', 'But...', 'Because...', and:",
+                options: [
+                    "'I need...'",
+                    "'Which makes me feel...'",
+                    "'Therefore...'",
+                    "'In order to...'"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "An Outcome Tree is used to:",
+                options: [
+                    "Organize development sprints",
+                    "Connect day-to-day work with desired business outcomes",
+                    "Track competitor activities",
+                    "Measure customer satisfaction"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "When prioritizing outcomes, you should consider:",
+                options: [
+                    "Only feasibility",
+                    "Only strategic alignment",
+                    "Both strategic alignment and feasibility",
+                    "Developer preferences"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "Affinity Mapping is used to:",
+                options: [
+                    "Create product roadmaps",
+                    "Organize data points into meaningful categories after customer interviews",
+                    "Track development velocity",
+                    "Calculate pricing"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "In Jobs to be Done, Functional Jobs help customers:",
+                options: [
+                    "Feel good",
+                    "Seem professional",
+                    "Complete tasks",
+                    "Save money"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "Social Jobs in the JTBD framework help customers:",
+                options: [
+                    "Do something",
+                    "Seem a certain way",
+                    "Feel a certain way",
+                    "Save time"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "Open-ended questions in empathy interviews should:",
+                options: [
+                    "Be yes/no questions",
+                    "Lead the customer to a specific answer",
+                    "Foster storytelling and have multiple right answers",
+                    "Focus on product features"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "Examples of B2C segmentation include all EXCEPT:",
+                options: [
+                    "Demographics",
+                    "Psychographic",
+                    "Firmographic",
+                    "Behavioral"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "Who should use personas in the organization?",
+                options: [
+                    "Only product managers",
+                    "Only marketing team",
+                    "Everyone in the business",
+                    "Only executives"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "When building a persona, you should include:",
+                options: [
+                    "Only demographic information",
+                    "Only goals",
+                    "Bio, pains, goals, quotes, attitudes, and influences",
+                    "Only their budget"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 3",
+                question: "Empathy interviews focus on:",
+                options: [
+                    "Selling products",
+                    "User experiences, perspectives, and emotions",
+                    "Technical specifications",
+                    "Competitor analysis"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "The purpose of a problem statement is to:",
+                options: [
+                    "Position the product in the market",
+                    "Tell a story to stakeholders and focus product efforts",
+                    "Replace the business case",
+                    "Document technical requirements"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 3",
+                question: "Firmographic segmentation is used for:",
+                options: [
+                    "B2C markets",
+                    "B2B markets",
+                    "Both B2B and B2C equally",
+                    "Only enterprise software"
+                ],
+                correct: 1
+            },
+
+            // Unit 4 Questions (22 questions)
+            {
+                unit: "Unit 4",
+                question: "'How Might We' questions are used to:",
+                options: [
+                    "Document customer problems",
+                    "Provoke creativity and reframe problems into challenges",
+                    "Validate business outcomes",
+                    "Measure product success"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "A Solution Hypothesis uses which framework?",
+                options: [
+                    "'When...Then...'",
+                    "'If...Then...'",
+                    "'Because...Therefore...'",
+                    "'Given...When...Then...'"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Which of the following is a characteristic of Lo-Fi Experiments?",
+                options: [
+                    "High cost and long duration",
+                    "Low cost and provides measurable outcomes",
+                    "Requires fully functional product",
+                    "Only works for software products"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Which type of Lo-Fi test involves offering a service manually, but hiding this fact from the end user?",
+                options: [
+                    "Concierge Test",
+                    "Wizard of Oz Test",
+                    "Landing Page Test",
+                    "Beta Program"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                type: "matching",
+                question: "Match each pricing strategy with its description:",
+                items: [
+                    { id: "1", label: "Cost-Based Pricing" },
+                    { id: "2", label: "Competition-Based Pricing" },
+                    { id: "3", label: "Value-Based Pricing" }
+                ],
+                descriptions: [
+                    { id: "A", text: "Price determined by perceived value and customer willingness to pay" },
+                    { id: "B", text: "Ensures all costs are covered with desired profit margin" },
+                    { id: "C", text: "Analyze competitor pricing and adjust to be competitive" }
+                ],
+                correct: { "1": "B", "2": "C", "3": "A" }
+            },
+            {
+                unit: "Unit 4",
+                question: "A Positioning Statement typically follows which framework element? (Select the one that is NOT included)",
+                options: [
+                    "FOR (target customer)",
+                    "THE (Product Name)",
+                    "COSTS (Pricing details)",
+                    "UNLIKE (Primary competitive alternative)"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 4",
+                question: "What makes a 'good' success metric?",
+                options: [
+                    "It's easy to measure",
+                    "It has direction, is understandable, actionable, and provides visibility into performance",
+                    "It shows large numbers",
+                    "It matches what competitors measure"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Which of the following is an example of a 'vanity metric'?",
+                options: [
+                    "Customer retention rate",
+                    "Net Promoter Score (NPS)",
+                    "Number of app downloads",
+                    "Monthly recurring revenue"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 4",
+                question: "When advocating for a solution, the Product Outcome Canvas is used to:",
+                options: [
+                    "Replace the need for a business case",
+                    "Give stakeholders all information needed to make decisions about the product",
+                    "Document technical specifications",
+                    "Track project timelines"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "'How Might We' questions should be:",
+                options: [
+                    "Very narrow and specific",
+                    "Very broad and general",
+                    "Neither too narrow nor too broad",
+                    "Yes/no questions"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 4",
+                question: "A Concierge Test involves:",
+                options: [
+                    "Hiding manual service from users",
+                    "Offering service manually to validate value",
+                    "Automated testing",
+                    "Video explanations"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Landing Page tests are used to:",
+                options: [
+                    "Replace the actual product",
+                    "Collect data without an actual product to back it up",
+                    "Only for e-commerce",
+                    "Only after product launch"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Storyboarding uses the user as:",
+                options: [
+                    "The villain",
+                    "The hero",
+                    "A supporting character",
+                    "The narrator"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "When should you use Lo-Fi experimentation?",
+                options: [
+                    "Never - always build the full product",
+                    "When there's significant risk or high development cost",
+                    "Only for B2C products",
+                    "Only at the end of development"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "A competitive matrix helps you:",
+                options: [
+                    "Copy competitor features",
+                    "Visualize how your product compares to others",
+                    "Set identical pricing",
+                    "Avoid differentiation"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "In a positioning statement, 'THAT' refers to:",
+                options: [
+                    "Target customer",
+                    "Product category",
+                    "Statement of key benefit",
+                    "Competitive alternative"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 4",
+                question: "Success metrics written to start with:",
+                options: [
+                    "A number",
+                    "A direction (increase/decrease)",
+                    "A feature name",
+                    "A competitor comparison"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Cost-Based Pricing is best when you want to:",
+                options: [
+                    "Maximize customer value perception",
+                    "Ensure profitability and stable prices",
+                    "Differentiate from competitors",
+                    "Charge what customers will pay"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Value-Based Pricing works best for:",
+                options: [
+                    "Commodities",
+                    "Niche appeal items with unique value",
+                    "All products equally",
+                    "Products with many competitors"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Who typically handles pricing adjustments and discount requests?",
+                options: [
+                    "Product Manager only",
+                    "CEO",
+                    "Revenue or sales operations",
+                    "Development team"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 4",
+                question: "The problem and solution space:",
+                options: [
+                    "Are completely separate",
+                    "Feed each other in a continuous cycle",
+                    "Only matter at launch",
+                    "Should never overlap"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 4",
+                question: "Crowdfunding as a lo-fi test allows you to:",
+                options: [
+                    "Get customers to invest up-front based on proposition",
+                    "Avoid building a product",
+                    "Replace all other testing",
+                    "Guarantee success"
+                ],
+                correct: 0
+            },
+
+            // Unit 5 Questions (28 questions)
+            {
+                unit: "Unit 5",
+                question: "An outcome-based roadmap should focus on:",
+                options: [
+                    "Detailed feature specifications",
+                    "Outcomes rather than outputs",
+                    "Exact delivery dates for all features",
+                    "Individual developer assignments"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "What do the NOW, NEXT, LATER timeframes on a roadmap represent?",
+                options: [
+                    "Mandatory deadlines that cannot change",
+                    "Levels of confidence and approximate time horizons",
+                    "Priority rankings from stakeholders",
+                    "Development team capacity"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "What is the typical confidence level and timeframe for items in the 'NOW' bucket?",
+                options: [
+                    ">70% confidence, ~6 months",
+                    "50% confidence, 1-2 years",
+                    "<30% confidence, 3-5 years",
+                    "100% confidence, 1 month"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 5",
+                question: "What is the purpose of 'Tiny Acts of Discovery'?",
+                options: [
+                    "To delay product development",
+                    "Small, low-risk experiments to validate assumptions",
+                    "To avoid making decisions",
+                    "To replace the Build-Measure-Learn loop"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "The KANO Model identifies five ways customers could react to a feature. Which is NOT one of them?",
+                options: [
+                    "Must Have",
+                    "Delighter",
+                    "Nice to Have",
+                    "Indifference"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 5",
+                question: "In the WSJF (Weighted Shortest Job First) prioritization model, Cost of Delay is calculated as:",
+                options: [
+                    "(Business Value) / (Job Duration)",
+                    "(Business Value + Time Criticality + Risk Reduction) / Job Duration",
+                    "(Impact × Confidence) / Effort",
+                    "(Reach × Impact × Confidence) / Effort"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "The RICE prioritization model stands for:",
+                options: [
+                    "Revenue, Impact, Cost, Effort",
+                    "Reach, Impact, Confidence, Effort",
+                    "Risk, Innovation, Customer value, Engagement",
+                    "Return, Investment, Capability, Execution"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Which prioritization framework explicitly includes 'Advantage to Us' as a factor?",
+                options: [
+                    "KANO",
+                    "WSJF",
+                    "RICE",
+                    "IDEA/E"
+                ],
+                correct: 3
+            },
+            {
+                unit: "Unit 5",
+                question: "What is the purpose of Launch Readiness programs?",
+                options: [
+                    "To delay product launch until everything is perfect",
+                    "To minimize post-launch risk and maximize success",
+                    "To create detailed project plans",
+                    "To assign blame if the launch fails"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "A Dark Launch is:",
+                options: [
+                    "Launching at night to avoid attention",
+                    "Releasing new features to a small percentage of customers to understand response",
+                    "A failed product launch",
+                    "Launching without any marketing"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                type: "matching",
+                question: "Match each 'Dangerous Animal' of product management with their characteristic behavior:",
+                items: [
+                    { id: "1", label: "HiPPO" },
+                    { id: "2", label: "RHiNO" },
+                    { id: "3", label: "ZEbRA" },
+                    { id: "4", label: "WoLF" }
+                ],
+                descriptions: [
+                    { id: "A", text: "Obsessed with a particular feature, often from Sales" },
+                    { id: "B", text: "Highest Paid Person's Opinion - wants to call the shots" },
+                    { id: "C", text: "Works on Latest Fire - dealing with unpaid technical debt" },
+                    { id: "D", text: "Zero Evidence but Really Arrogant - relies on gut feeling" }
+                ],
+                correct: { "1": "B", "2": "A", "3": "D", "4": "C" }
+            },
+            {
+                unit: "Unit 5",
+                question: "The three pillars of Launch Readiness are:",
+                options: [
+                    "Product, Market, Sales",
+                    "Product Readiness, Market Readiness, Organizational Readiness",
+                    "Planning, Execution, Measurement",
+                    "Discovery, Development, Delivery"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "In Go-To-Market strategy, 'Key Messages' should focus on:",
+                options: [
+                    "Technical specifications",
+                    "Benefits, not features",
+                    "Competitor weaknesses",
+                    "Pricing details"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "What provides the 'reason to believe' in your Go-To-Market messaging?",
+                options: [
+                    "Key Messages",
+                    "Proof Points",
+                    "Positioning Statements",
+                    "Value Propositions"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "A roadmap is NOT:",
+                options: [
+                    "A critical stakeholder communication tool",
+                    "A highly detailed project plan",
+                    "A living document",
+                    "An embodiment of product strategy"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Internal roadmaps are used to:",
+                options: [
+                    "Communicate to customers",
+                    "Align resources and highlight key investments",
+                    "Replace the business case",
+                    "Track competitor moves"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "NEXT bucket items typically have:",
+                options: [
+                    ">70% confidence",
+                    "50% confidence, 1-2 years horizon",
+                    "<30% confidence",
+                    "100% confidence"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Assumptions can be categorized as:",
+                options: [
+                    "Only desirability",
+                    "Desirability, Viability, Feasibility, Usability",
+                    "Only technical",
+                    "Only business"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Product-Market Fit is achieved through:",
+                options: [
+                    "Guessing",
+                    "The Build-Measure-Learn Loop",
+                    "Copying competitors",
+                    "Following HiPPO"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "The KANO model is ideal for:",
+                options: [
+                    "Prioritizing MVP features",
+                    "Financial forecasting",
+                    "Team building",
+                    "Competitive analysis"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 5",
+                question: "A limitation of the RICE model is:",
+                options: [
+                    "Too simple",
+                    "Suggests objective output but inputs are likely subjective",
+                    "Only works for B2B",
+                    "Takes too long"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Four Quadrant Analysis uses:",
+                options: [
+                    "Cost/Risk vs Value to Customer",
+                    "Only cost",
+                    "Only value",
+                    "Time vs Money"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 5",
+                question: "Feature Buying exercise gives the dev team:",
+                options: [
+                    "No voice",
+                    "A stronger voice as they assign cost",
+                    "Final decision power",
+                    "Budget control"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "A Canary Release involves:",
+                options: [
+                    "Releasing to all customers",
+                    "Releasing new changes to small percentage to reduce risk",
+                    "Never releasing",
+                    "Only testing internally"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "A Beta Program deploys to:",
+                options: [
+                    "All customers immediately",
+                    "Select set of customers before commercial release",
+                    "Only internal teams",
+                    "Competitors"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Proof Points can include:",
+                options: [
+                    "Only opinions",
+                    "Customer testimonials, testing, 3rd party validation, facts",
+                    "Only marketing slogans",
+                    "Competitor weaknesses"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "When sharing roadmaps with Sales, emphasize:",
+                options: [
+                    "Technical details",
+                    "What customers and segments are targeted",
+                    "Developer assignments",
+                    "Bug fixes"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 5",
+                question: "Tiny Acts of Discovery should be:",
+                options: [
+                    "Expensive and time-consuming",
+                    "Quick, inexpensive, and easy to set up",
+                    "Done only once",
+                    "Avoided"
+                ],
+                correct: 1
+            },
+
+            // Unit 6 Questions (17 questions)
+            {
+                unit: "Unit 6",
+                question: "Health Metrics monitor which four areas?",
+                options: [
+                    "Revenue, Profit, Growth, Market Share",
+                    "Depth, Breadth, Frequency, Sentiment",
+                    "Acquisition, Activation, Retention, Revenue",
+                    "Users, Sessions, Engagement, Conversion"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "What is the relationship between Outcomes, Success Metrics, and Health Metrics?",
+                options: [
+                    "They are all the same thing",
+                    "Outcomes = what we want; Success Metrics = how closely we track to outcomes; Health Metrics = things to monitor to ensure we don't fail",
+                    "Health Metrics lead to Success Metrics which lead to Outcomes",
+                    "Only Health Metrics matter post-launch"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "Continuous Discovery involves returning to which stage of the Productside Blueprint?",
+                options: [
+                    "Create",
+                    "Deliver",
+                    "Discover and Investigate",
+                    "Define"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 6",
+                question: "When saying 'no' to a stakeholder request, what is the recommended framework?",
+                options: [
+                    "Just say 'no' immediately",
+                    "Listen, recap, reframe as outcome, frame trade-offs, then say no or not right now",
+                    "Agree to everything to maintain relationships",
+                    "Redirect them to your manager"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "When should you start thinking about a product's End of Life?",
+                options: [
+                    "Only when sales decline",
+                    "When competitors launch similar products",
+                    "When first developing the product",
+                    "Never - products should last forever"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 6",
+                question: "A Process Retrospective is used to:",
+                options: [
+                    "Assign blame for failures",
+                    "Reflect on what went well, what could improve, and what to do differently in future",
+                    "Document product features",
+                    "Plan the next sprint"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "The goal of managing End of Life is to balance:",
+                options: [
+                    "Customer goals and company goals",
+                    "Revenue and costs",
+                    "Old products and new products",
+                    "Internal and external stakeholders"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 6",
+                question: "Depth as a health metric measures:",
+                options: [
+                    "How many users you have",
+                    "How much product features are being used",
+                    "How often users visit",
+                    "How customers feel"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "Breadth as a health metric measures:",
+                options: [
+                    "Feature usage",
+                    "How many users your product has",
+                    "Time spent",
+                    "Satisfaction"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "Sources of continuous discovery include:",
+                options: [
+                    "Only customer interviews",
+                    "Only analytics",
+                    "Customer interviews, competitor analysis, feedback, trends, analytics, tiny acts of discovery",
+                    "Only surveys"
+                ],
+                correct: 2
+            },
+            {
+                unit: "Unit 6",
+                question: "HiPPO stands for:",
+                options: [
+                    "High Impact Product Performance Objective",
+                    "Highest Paid Person's Opinion",
+                    "Highly Productive Product Owner",
+                    "Historical Product Performance Outcome"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "To handle a HiPPO, you should:",
+                options: [
+                    "Always agree",
+                    "Depersonalize discussion and bring it back to data",
+                    "Ignore them",
+                    "Escalate immediately"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "RHiNO typically comes from:",
+                options: [
+                    "Engineering",
+                    "Sales",
+                    "Marketing",
+                    "Finance"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "To handle a ZEbRA, you should:",
+                options: [
+                    "Agree with their gut feeling",
+                    "Bring them along for research and test assumptions with lo-fi experiments",
+                    "Ignore them",
+                    "Build their feature immediately"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "Customer goals during End of Life include:",
+                options: [
+                    "Immediate product shutdown",
+                    "Maintaining loyalty and meeting needs",
+                    "No communication",
+                    "Forced upgrades"
+                ],
+                correct: 1
+            },
+            {
+                unit: "Unit 6",
+                question: "Company goals during End of Life include:",
+                options: [
+                    "Exit market ASAP while meeting obligations",
+                    "Ignore customers",
+                    "Continue development",
+                    "Lower quality"
+                ],
+                correct: 0
+            },
+            {
+                unit: "Unit 6",
+                question: "Process Retrospective benefits include:",
+                options: [
+                    "Only identifying failures",
+                    "Continuous improvement, collaboration, communication, efficiency",
+                    "Slowing down the team",
+                    "Creating blame"
+                ],
+                correct: 1
+            }
+        ];
+
+        let examQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let startTime;
+        let timerInterval;
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function shuffleOptions(question) {
+            if (question.type === 'matching') {
+                return question; // Don't shuffle matching questions
+            }
+            
+            // Create array of option indices
+            const indices = question.options.map((_, i) => i);
+            const shuffledIndices = shuffleArray(indices);
+            
+            // Create new shuffled options
+            const shuffledOptions = shuffledIndices.map(i => question.options[i]);
+            
+            // Find where the correct answer moved to
+            const newCorrectIndex = shuffledIndices.indexOf(question.correct);
+            
+            return {
+                ...question,
+                options: shuffledOptions,
+                correct: newCorrectIndex,
+                originalCorrect: question.correct // Keep for reference
+            };
+        }
+
+        function selectRandomQuestions(database, count) {
+            const shuffled = shuffleArray(database);
+            return shuffled.slice(0, count).map((q, index) => ({
+                ...shuffleOptions(q),
+                id: index + 1
+            }));
+        }
+
+        function startExam() {
+            examQuestions = selectRandomQuestions(questionDatabase, 50);
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('exam-content').classList.remove('hidden');
+            document.getElementById('total-q').textContent = examQuestions.length;
+            renderNavigationDots();
+            showQuestion(0);
+            startTimer();
+        }
+
+        function renderNavigationDots() {
+            const dotsContainer = document.getElementById('nav-dots');
+            dotsContainer.innerHTML = '';
+            examQuestions.forEach((q, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                dot.textContent = index + 1;
+                dot.onclick = () => showQuestion(index);
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            const question = examQuestions[index];
+            const container = document.getElementById('question-display');
+            
+            document.getElementById('current-q').textContent = index + 1;
+            updateProgress();
+
+            if (question.type === 'matching') {
+                container.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">Question ${index + 1} of ${examQuestions.length}</div>
+                        <div class="unit-badge">${question.unit}</div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="matching-section">
+                        <div class="matching-instructions">
+                            Match each item on the left with the correct description on the right.
+                        </div>
+                        ${question.items.map(item => `
+                            <div class="match-pair">
+                                <span class="match-label">${item.id}. ${item.label}</span>
+                                <span class="match-arrow">→</span>
+                                <select id="match_${index}_${item.id}" onchange="saveAnswer()">
+                                    <option value="">Select answer...</option>
+                                    ${question.descriptions.map(desc => 
+                                        `<option value="${desc.id}" ${userAnswers[index]?.[item.id] === desc.id ? 'selected' : ''}>
+                                            ${desc.id}. ${desc.text}
+                                        </option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${index === 0 ? 'disabled' : ''}>
+                            ← Previous
+                        </button>
+                        ${index < examQuestions.length - 1 ? 
+                            `<button class="btn" onclick="nextQuestion()">Next →</button>` :
+                            `<button class="btn btn-success" onclick="submitExam()">Submit Exam</button>`
+                        }
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">Question ${index + 1} of ${examQuestions.length}</div>
+                        <div class="unit-badge">${question.unit}</div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+                        ${question.options.map((option, i) => `
+                            <div class="option ${userAnswers[index] === i ? 'selected' : ''}" onclick="selectOption(${index}, ${i})">
+                                <input type="radio" 
+                                       id="q${index}_${i}" 
+                                       name="q${index}" 
+                                       value="${i}"
+                                       ${userAnswers[index] === i ? 'checked' : ''}>
+                                <label for="q${index}_${i}">${option}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" ${index === 0 ? 'disabled' : ''}>
+                            ← Previous
+                        </button>
+                        ${index < examQuestions.length - 1 ? 
+                            `<button class="btn" onclick="nextQuestion()">Next →</button>` :
+                            `<button class="btn btn-success" onclick="submitExam()">Submit Exam</button>`
+                        }
+                    </div>
+                `;
+            }
+
+            updateNavigationDots();
+            window.scrollTo(0, 0);
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            userAnswers[questionIndex] = optionIndex;
+            showQuestion(questionIndex);
+        }
+
+        function saveAnswer() {
+            const question = examQuestions[currentQuestionIndex];
+            if (question.type === 'matching') {
+                userAnswers[currentQuestionIndex] = {};
+                question.items.forEach(item => {
+                    const select = document.getElementById(`match_${currentQuestionIndex}_${item.id}`);
+                    if (select) {
+                        userAnswers[currentQuestionIndex][item.id] = select.value;
+                    }
+                });
+            }
+            updateProgress();
+            updateNavigationDots();
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < examQuestions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function updateProgress() {
+            let answered = 0;
+            examQuestions.forEach((q, index) => {
+                if (q.type === 'matching') {
+                    const allAnswered = q.items.every(item => 
+                        userAnswers[index]?.[item.id] && userAnswers[index][item.id] !== ''
+                    );
+                    if (allAnswered) answered++;
+                } else {
+                    if (userAnswers[index] !== undefined) answered++;
+                }
+            });
+            const progress = (answered / examQuestions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function updateNavigationDots() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('answered', 'current');
+                
+                const question = examQuestions[index];
+                let isAnswered = false;
+                
+                if (question.type === 'matching') {
+                    isAnswered = question.items.every(item => 
+                        userAnswers[index]?.[item.id] && userAnswers[index][item.id] !== ''
+                    );
+                } else {
+                    isAnswered = userAnswers[index] !== undefined;
+                }
+                
+                if (isAnswered) {
+                    dot.classList.add('answered');
+                }
+                if (index === currentQuestionIndex) {
+                    dot.classList.add('current');
+                }
+            });
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const remaining = Math.max(0, 5400 - elapsed);
+                const minutes = Math.floor(remaining / 60);
+                const seconds = remaining % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (remaining === 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up! Submitting your exam...');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function submitExam() {
+            if (!confirm('Are you sure you want to submit your exam? Make sure you have answered all questions.')) {
+                return;
+            }
+
+            clearInterval(timerInterval);
+            
+            let correct = 0;
+            examQuestions.forEach((q, index) => {
+                if (q.type === 'matching') {
+                    let allCorrect = true;
+                    q.items.forEach(item => {
+                        if (userAnswers[index]?.[item.id] !== q.correct[item.id]) {
+                            allCorrect = false;
+                        }
+                    });
+                    if (allCorrect) correct++;
+                } else {
+                    if (userAnswers[index] === q.correct) correct++;
+                }
+            });
+
+            displayResults(correct);
+        }
+
+        function displayResults(correct) {
+            const percentage = Math.round((correct / examQuestions.length) * 100);
+            
+            document.getElementById('exam-content').classList.add('hidden');
+            document.getElementById('results').style.display = 'block';
+
+            const scoreDisplay = document.getElementById('score-display');
+            scoreDisplay.textContent = `${correct} / ${examQuestions.length} (${percentage}%)`;
+
+            let scoreClass, feedback;
+            if (percentage >= 90) {
+                scoreClass = 'score-excellent';
+                feedback = '🎉 Excellent! You have a strong grasp of the material and are well-prepared for the certification exam!';
+            } else if (percentage >= 70) {
+                scoreClass = 'score-good';
+                feedback = '👍 Good work! You\'re ready to pass, but review the questions you missed to strengthen your knowledge.';
+            } else if (percentage >= 50) {
+                scoreClass = 'score-needs-work';
+                feedback = '📚 You need more study time. Focus on the units where you struggled and review the study materials thoroughly.';
+            } else {
+                scoreClass = 'score-poor';
+                feedback = '⚠️ Significant preparation needed. Please review all study materials thoroughly before attempting the exam.';
+            }
+
+            scoreDisplay.className = `score-display ${scoreClass}`;
+            document.getElementById('feedback').textContent = feedback;
+        }
+
+        function reviewAnswers() {
+            const reviewSection = document.getElementById('review');
+            reviewSection.classList.remove('hidden');
+            reviewSection.innerHTML = '<h3 style="font-family: Spectral, serif; color: var(--primary); margin-bottom: 1.5rem;">Answer Review</h3>';
+
+            examQuestions.forEach((q, index) => {
+                const div = document.createElement('div');
+                let isCorrect;
+
+                if (q.type === 'matching') {
+                    isCorrect = true;
+                    q.items.forEach(item => {
+                        if (userAnswers[index]?.[item.id] !== q.correct[item.id]) {
+                            isCorrect = false;
+                        }
+                    });
+
+                    let matchingDetails = '<ul style="margin-top: 0.5rem; margin-left: 1.5rem;">';
+                    q.items.forEach(item => {
+                        const userAns = userAnswers[index]?.[item.id] || 'Not answered';
+                        const correctAns = q.correct[item.id];
+                        const match = userAns === correctAns;
+                        matchingDetails += `<li><strong>${item.id}. ${item.label}</strong> → ${userAns} ${match ? '✓' : '✗ (Correct: ' + correctAns + ')'}</li>`;
+                    });
+                    matchingDetails += '</ul>';
+
+                    div.className = `review-item ${isCorrect ? 'review-correct' : 'review-incorrect'}`;
+                    div.innerHTML = `
+                        <strong style="font-size: 1.1rem;">${q.unit} - Question ${index + 1}:</strong> ${q.question}
+                        ${matchingDetails}
+                    `;
+                } else {
+                    isCorrect = userAnswers[index] === q.correct;
+                    div.className = `review-item ${isCorrect ? 'review-correct' : 'review-incorrect'}`;
+                    div.innerHTML = `
+                        <strong style="font-size: 1.1rem;">${q.unit} - Question ${index + 1}:</strong> ${q.question}<br>
+                        <strong>Your answer:</strong> ${userAnswers[index] !== undefined ? q.options[userAnswers[index]] : 'Not answered'}<br>
+                        ${!isCorrect ? `<strong style="color: var(--accent);">Correct answer:</strong> ${q.options[q.correct]}` : ''}
+                    `;
+                }
+
+                reviewSection.appendChild(div);
+            });
+
+            reviewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

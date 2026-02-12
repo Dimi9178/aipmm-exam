@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIPMM Certified Product Manager Practice Exam</title>
+    <title>AIPMM Certification Practice Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1a365d;
-            --secondary: #2d3748;
-            --accent: #e53e3e;
-            --success: #38a169;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
+            --primary: #1e40af;
+            --secondary: #3730a3;
+            --accent: #dc2626;
+            --success: #059669;
+            --warning: #d97706;
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-light: #718096;
+            --text: #1e293b;
+            --text-light: #64748b;
         }
 
         * {
@@ -31,1233 +30,363 @@
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            text-align: center;
             color: white;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease;
         }
 
-        .header-content {
-            max-width: 900px;
-            margin: 0 auto;
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
             font-family: 'Spectral', serif;
-            font-size: 2.5rem;
+            font-size: 4rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.5rem;
+            opacity: 0.95;
             font-weight: 400;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .intro-section {
+        .intro-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--accent);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
-        .intro-section h2 {
-            font-family: 'Spectral', serif;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .intro-section ul {
-            margin-left: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .intro-section li {
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
-        }
-
-        .timer-section {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .timer {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--primary);
-            font-family: 'Spectral', serif;
-        }
-
-        .progress-bar {
-            flex: 1;
-            margin: 0 2rem;
-            height: 8px;
-            background: var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--primary));
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .question-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--primary);
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-        }
-
-        @keyframes fadeIn {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
             to {
                 opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .intro-card h2 {
+            font-family: 'Spectral', serif;
+            color: var(--primary);
+            font-size: 2.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .question-number {
-            background: var(--primary);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
+        .intro-text {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 2rem;
         }
 
-        .unit-badge {
-            background: var(--border);
+        .study-path {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(30, 64, 175, 0.05);
+            border-radius: 12px;
+        }
+
+        .path-step {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .path-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .path-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.3s; }
+        .tool-card:nth-child(2) { animation-delay: 0.4s; }
+        .tool-card:nth-child(3) { animation-delay: 0.5s; }
+        .tool-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .tool-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-title {
+            font-family: 'Spectral', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tool-description {
             color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .tool-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: rgba(30, 64, 175, 0.1);
+            color: var(--primary);
             padding: 0.4rem 0.8rem;
             border-radius: 6px;
             font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .question-text {
-            font-size: 1.15rem;
-            margin-bottom: 1.5rem;
-            color: var(--text);
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .option {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .option:hover {
-            border-color: var(--primary);
-            background: rgba(26, 54, 93, 0.02);
-        }
-
-        .option input[type="radio"] {
-            margin-right: 1rem;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .matching-section {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .match-pair {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            gap: 1rem;
-        }
-
-        .match-number {
             font-weight: 600;
-            color: var(--primary);
-            min-width: 30px;
         }
 
-        .match-pair select {
-            flex: 1;
-            padding: 0.75rem;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: 'Work Sans', sans-serif;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .match-pair select:hover {
-            border-color: var(--primary);
-        }
-
-        .submit-section {
-            text-align: center;
-            margin: 3rem 0;
-        }
-
-        .btn {
+        .tool-btn {
+            display: inline-block;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border: none;
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
             font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
+            font-size: 1.05rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
         }
 
-        .btn:hover {
+        .tool-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26, 54, 93, 0.4);
+            box-shadow: 0 6px 25px rgba(30, 64, 175, 0.4);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-start {
-            background: linear-gradient(135deg, var(--success), #2f855a);
-        }
-
-        .results-section {
-            display: none;
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 3rem;
-            text-align: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-        }
-
-        .score-display {
-            font-size: 4rem;
+        .recommended-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 700;
-            font-family: 'Spectral', serif;
-            margin: 2rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .score-excellent {
-            color: var(--success);
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            margin-top: 3rem;
+            opacity: 0.9;
         }
 
-        .score-good {
-            color: var(--primary);
-        }
-
-        .score-needs-work {
-            color: var(--warning);
-        }
-
-        .score-poor {
-            color: var(--accent);
-        }
-
-        .feedback {
-            font-size: 1.2rem;
-            margin: 1.5rem 0;
-            line-height: 1.8;
-        }
-
-        .review-section {
-            margin-top: 2rem;
-            text-align: left;
-        }
-
-        .review-item {
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            border-left: 4px solid;
-        }
-
-        .review-correct {
-            background: rgba(56, 161, 105, 0.1);
-            border-left-color: var(--success);
-        }
-
-        .review-incorrect {
-            background: rgba(229, 62, 62, 0.1);
-            border-left-color: var(--accent);
-        }
-
-        .hidden {
-            display: none;
+        .footer a {
+            color: white;
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
             }
 
-            .container {
-                padding: 1rem;
+            .subtitle {
+                font-size: 1.2rem;
             }
 
-            .timer-section {
-                flex-direction: column;
-                gap: 1rem;
+            .intro-card h2 {
+                font-size: 2rem;
             }
 
-            .progress-bar {
-                margin: 0;
-                width: 100%;
+            .study-path {
+                grid-template-columns: 1fr 1fr;
             }
 
-            .question-card {
-                padding: 1.5rem;
-            }
-
-            .score-display {
-                font-size: 3rem;
+            .tools-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <h1>AIPMM Practice Exam</h1>
-            <p class="subtitle">Certified Product Manager Certification</p>
-        </div>
-    </div>
-
     <div class="container">
-        <div id="intro" class="intro-section">
-            <h2>Welcome to Your Practice Exam</h2>
-            <p><strong>This comprehensive practice exam will test your knowledge across all 6 units of the AIPMM certification:</strong></p>
-            <ul>
-                <li>50 questions total</li>
-                <li>Multiple choice and matching questions</li>
-                <li>Recommended time: 90 minutes</li>
-                <li>Passing score: 70% (35 correct answers)</li>
-                <li>Instant results with detailed feedback</li>
-            </ul>
-            <div class="submit-section">
-                <button class="btn btn-start" onclick="startExam()">Start Exam</button>
+        <div class="header">
+            <h1>🎓 AIPMM Practice Hub</h1>
+            <p class="subtitle">Master your Product Management certification with confidence</p>
+        </div>
+
+        <div class="intro-card">
+            <h2>Welcome to Your Study Center</h2>
+            <p class="intro-text">
+                Prepare for your AIPMM Certified Product Manager exam with our comprehensive suite of practice tools. 
+                Each tool is designed to help you learn in different ways - from intensive exam practice to quick flashcard reviews.
+            </p>
+            
+            <div class="study-path">
+                <div class="path-step">
+                    <div class="path-number">1</div>
+                    <div class="path-label">Learn with Flashcards</div>
+                </div>
+                <div class="path-step">
+                    <div class="path-number">2</div>
+                    <div class="path-label">Practice by Unit</div>
+                </div>
+                <div class="path-step">
+                    <div class="path-number">3</div>
+                    <div class="path-label">Quick 25Q Test</div>
+                </div>
+                <div class="path-step">
+                    <div class="path-number">4</div>
+                    <div class="path-label">Full 50Q Exam</div>
+                </div>
             </div>
         </div>
 
-        <div id="exam-content" class="hidden">
-            <div class="timer-section">
-                <div class="timer" id="timer">90:00</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress"></div>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="recommended-badge">Start Here</div>
+                <div class="tool-icon">🎴</div>
+                <h3 class="tool-title">Flashcards</h3>
+                <p class="tool-description">
+                    Interactive flip cards to memorize key concepts. Filter by unit, shuffle, and track your progress.
+                </p>
+                <div class="tool-meta">
+                    <span class="meta-badge">50+ Cards</span>
+                    <span class="meta-badge">All Units</span>
+                    <span class="meta-badge">Track Progress</span>
                 </div>
-                <div style="color: var(--text-light);">
-                    <span id="answered-count">0</span> / 50 answered
-                </div>
+                <a href="flashcards.html" class="tool-btn">Study Flashcards</a>
             </div>
 
-            <div id="questions-container"></div>
+            <div class="tool-card">
+                <div class="tool-icon">📚</div>
+                <h3 class="tool-title">Unit Quizzes</h3>
+                <p class="tool-description">
+                    Focus on specific units to strengthen weak areas. Choose from 6 unit-specific practice quizzes.
+                </p>
+                <div class="tool-meta">
+                    <span class="meta-badge">15-28 Questions</span>
+                    <span class="meta-badge">6 Units</span>
+                    <span class="meta-badge">Targeted Practice</span>
+                </div>
+                <a href="unit_specific_quizzes.html" class="tool-btn">Practice by Unit</a>
+            </div>
 
-            <div class="submit-section">
-                <button class="btn" onclick="submitExam()">Submit Exam</button>
+            <div class="tool-card">
+                <div class="tool-icon">⚡</div>
+                <h3 class="tool-title">Quick Practice</h3>
+                <p class="tool-description">
+                    25-question rapid test for quick review sessions. Perfect for lunch breaks or commutes.
+                </p>
+                <div class="tool-meta">
+                    <span class="meta-badge">25 Questions</span>
+                    <span class="meta-badge">45 Minutes</span>
+                    <span class="meta-badge">Randomized</span>
+                </div>
+                <a href="quick_practice_25.html" class="tool-btn">Quick Test</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="recommended-badge">Final Prep</div>
+                <div class="tool-icon">📊</div>
+                <h3 class="tool-title">Full Practice Exam</h3>
+                <p class="tool-description">
+                    Complete 50-question exam from 100+ question database. New questions every time!
+                </p>
+                <div class="tool-meta">
+                    <span class="meta-badge">50 Questions</span>
+                    <span class="meta-badge">90 Minutes</span>
+                    <span class="meta-badge">100+ Database</span>
+                </div>
+                <a href="dynamic_exam.html" class="tool-btn">Take Full Exam</a>
             </div>
         </div>
 
-        <div id="results" class="results-section">
-            <h2 style="font-family: 'Spectral', serif; font-size: 2rem; color: var(--primary);">Your Results</h2>
-            <div class="score-display" id="score-display"></div>
-            <div class="feedback" id="feedback"></div>
-            <div class="submit-section">
-                <button class="btn" onclick="reviewAnswers()">Review Answers</button>
-                <button class="btn" onclick="location.reload()" style="margin-left: 1rem; background: var(--text-light);">Retake Exam</button>
-            </div>
-            <div id="review" class="review-section hidden"></div>
+        <div class="footer">
+            <p><strong>Study Tip:</strong> Start with flashcards, practice weak units, then take the full exam multiple times!</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                Created for AIPMM Certified Product Manager certification preparation
+            </p>
         </div>
     </div>
-
-    <script>
-        const questions = [
-            {
-                id: 1,
-                unit: "Unit 1",
-                question: "What is the primary responsibility of a Product Manager?",
-                options: [
-                    "Writing detailed technical specifications for developers",
-                    "Ensuring the product brings value to users and the company",
-                    "Managing the development team's daily tasks",
-                    "Creating marketing campaigns for product launches"
-                ],
-                correct: 1
-            },
-            {
-                id: 2,
-                unit: "Unit 1",
-                question: "Which of the following is primarily a Product Owner responsibility rather than a Product Manager responsibility?",
-                options: [
-                    "Competitive analysis",
-                    "Pricing strategy",
-                    "Backlog refinement",
-                    "End of life planning"
-                ],
-                correct: 2
-            },
-            {
-                id: 3,
-                unit: "Unit 1",
-                question: "In the Stakeholder Alignment Template, stakeholders should be charted on two axes. What do these axes represent?",
-                options: [
-                    "Budget and Timeline",
-                    "Level of interest and Level of power",
-                    "Customer satisfaction and Business value",
-                    "Risk and Opportunity"
-                ],
-                correct: 1
-            },
-            {
-                id: 4,
-                unit: "Unit 1",
-                question: "The Product Lifecycle consists of four stages. Which statement is TRUE about these stages?",
-                options: [
-                    "Products always move linearly from Introduction to Decline",
-                    "Products can go through each phase multiple times",
-                    "Once a product reaches Maturity, it cannot return to Growth",
-                    "All products must eventually reach the Decline stage"
-                ],
-                correct: 1
-            },
-            {
-                id: 5,
-                unit: "Unit 1",
-                question: "Product-Market Fit is achieved at the intersection of three elements. Which of the following is NOT one of them?",
-                options: [
-                    "Value (do customers want this?)",
-                    "Feasible (can we do this?)",
-                    "Scalable (can we grow this?)",
-                    "Viable (should we do this?)"
-                ],
-                correct: 2
-            },
-            {
-                id: 6,
-                unit: "Unit 1",
-                question: "What is the key difference between Outputs and Outcomes?",
-                options: [
-                    "Outputs are strategic; outcomes are tactical",
-                    "Outputs are deliverables; outcomes are the results or impacts of those deliverables",
-                    "Outputs are measured in dollars; outcomes are measured in user satisfaction",
-                    "There is no meaningful difference between the two"
-                ],
-                correct: 1
-            },
-            {
-                id: 7,
-                unit: "Unit 2",
-                question: "Which question does a Business Outcome answer?",
-                options: [
-                    "What features should we build?",
-                    "When should we launch?",
-                    "What measurable results is the business working to achieve?",
-                    "How many developers do we need?"
-                ],
-                correct: 2
-            },
-            {
-                id: 8,
-                unit: "Unit 2",
-                question: "In the Ansoff Growth Matrix, which strategy involves taking existing products to new markets?",
-                options: [
-                    "Market Penetration",
-                    "Product Development",
-                    "Market Development",
-                    "Diversification"
-                ],
-                correct: 2
-            },
-            {
-                id: 9,
-                unit: "Unit 2",
-                question: "PESTEL Analysis helps product managers understand market forces. What does the 'T' in PESTEL stand for?",
-                options: [
-                    "Tactical",
-                    "Technological",
-                    "Territorial",
-                    "Temporal"
-                ],
-                correct: 1
-            },
-            {
-                id: 10,
-                unit: "Unit 2",
-                question: "What is the relationship between TAM, SAM, and SOM?",
-                options: [
-                    "TAM > SAM > SOM",
-                    "SOM > SAM > TAM",
-                    "They are all equal in size",
-                    "SAM > TAM > SOM"
-                ],
-                correct: 0
-            },
-            {
-                id: 11,
-                unit: "Unit 2",
-                question: "TAM stands for:",
-                options: [
-                    "Total Addressable Market",
-                    "Target Audience Measurement",
-                    "Technical Asset Management",
-                    "Time-to-Market Analysis"
-                ],
-                correct: 0
-            },
-            {
-                id: 12,
-                unit: "Unit 2",
-                question: "According to the Ansoff Growth Matrix, which strategy represents the highest risk?",
-                options: [
-                    "Market Penetration",
-                    "Product Development",
-                    "Market Development",
-                    "Diversification"
-                ],
-                correct: 3
-            },
-            {
-                id: 13,
-                unit: "Unit 3",
-                question: "When expressing product outcomes, your statement should include which of the following elements?",
-                options: [
-                    "Features, Timeline, Budget, Resources",
-                    "Direction, Metrics, Outcomes, Context",
-                    "Stakeholders, Developers, Customers, Partners",
-                    "Price, Promotion, Place, Product"
-                ],
-                correct: 1
-            },
-            {
-                id: 14,
-                unit: "Unit 3",
-                question: "What is a 'customer problem' in product management?",
-                options: [
-                    "A specific need, pain point, or challenge experienced by a customer",
-                    "A complaint filed through customer support",
-                    "A feature request from a stakeholder",
-                    "Any issue that delays product development"
-                ],
-                correct: 0
-            },
-            {
-                id: 15,
-                unit: "Unit 3",
-                question: "Jobs to be Done framework identifies three types of jobs. Which is NOT one of them?",
-                options: [
-                    "Functional Jobs ('Help me do...')",
-                    "Social Jobs ('Help me seem...')",
-                    "Emotional Jobs ('Help me feel...')",
-                    "Technical Jobs ('Help me code...')"
-                ],
-                correct: 3
-            },
-            {
-                id: 16,
-                unit: "Unit 3",
-                question: "What is the difference between a Segment and a Persona?",
-                options: [
-                    "Segments are for B2B; personas are for B2C",
-                    "Segments tell you WHERE your customers are; personas tell you WHO they are",
-                    "Segments are more detailed than personas",
-                    "There is no difference; they are the same thing"
-                ],
-                correct: 1
-            },
-            {
-                id: 17,
-                unit: "Unit 3",
-                question: "In an Empathy Interview, what is the recommended ratio of listening to talking?",
-                options: [
-                    "50% listening, 50% talking",
-                    "70% listening, 30% talking",
-                    "30% listening, 70% talking",
-                    "90% listening, 10% talking"
-                ],
-                correct: 1
-            },
-            {
-                id: 18,
-                unit: "Unit 3",
-                question: "What is a proto-persona?",
-                options: [
-                    "The most important persona in your target market",
-                    "A market-unvalidated persona that must be validated before widespread use",
-                    "A persona used only for internal stakeholders",
-                    "A persona that represents your competitors' customers"
-                ],
-                correct: 1
-            },
-            {
-                id: 19,
-                unit: "Unit 3",
-                question: "A problem statement should be written from the perspective of:",
-                options: [
-                    "The product manager",
-                    "The development team",
-                    "A persona",
-                    "Company executives"
-                ],
-                correct: 2
-            },
-            {
-                id: 20,
-                unit: "Unit 3",
-                question: "The problem statement framework includes five elements: 'I am...', 'Trying to...', 'But...', 'Because...', and:",
-                options: [
-                    "'I need...'",
-                    "'Which makes me feel...'",
-                    "'Therefore...'",
-                    "'In order to...'"
-                ],
-                correct: 1
-            },
-            {
-                id: 21,
-                unit: "Unit 4",
-                question: "'How Might We' questions are used to:",
-                options: [
-                    "Document customer problems",
-                    "Provoke creativity and reframe problems into challenges",
-                    "Validate business outcomes",
-                    "Measure product success"
-                ],
-                correct: 1
-            },
-            {
-                id: 22,
-                unit: "Unit 4",
-                question: "A Solution Hypothesis uses which framework?",
-                options: [
-                    "'When...Then...'",
-                    "'If...Then...'",
-                    "'Because...Therefore...'",
-                    "'Given...When...Then...'"
-                ],
-                correct: 1
-            },
-            {
-                id: 23,
-                unit: "Unit 4",
-                question: "Which of the following is a characteristic of Lo-Fi Experiments?",
-                options: [
-                    "High cost and long duration",
-                    "Low cost and provides measurable outcomes",
-                    "Requires fully functional product",
-                    "Only works for software products"
-                ],
-                correct: 1
-            },
-            {
-                id: 24,
-                unit: "Unit 4",
-                question: "Which type of Lo-Fi test involves offering a service manually, but hiding this fact from the end user?",
-                options: [
-                    "Concierge Test",
-                    "Wizard of Oz Test",
-                    "Landing Page Test",
-                    "Beta Program"
-                ],
-                correct: 1
-            },
-            {
-                id: 25,
-                unit: "Unit 4",
-                question: "Match each pricing strategy with its description:",
-                type: "matching",
-                items: [
-                    { id: "1", label: "Cost-Based Pricing" },
-                    { id: "2", label: "Competition-Based Pricing" },
-                    { id: "3", label: "Value-Based Pricing" }
-                ],
-                descriptions: [
-                    { id: "A", text: "Price determined by perceived value and customer willingness to pay" },
-                    { id: "B", text: "Ensures all costs are covered with desired profit margin" },
-                    { id: "C", text: "Analyze competitor pricing and adjust to be competitive" }
-                ],
-                correct: { "1": "B", "2": "C", "3": "A" }
-            },
-            {
-                id: 26,
-                unit: "Unit 4",
-                question: "A Positioning Statement typically follows which framework element? (Select the one that is NOT included)",
-                options: [
-                    "FOR (target customer)",
-                    "THE (Product Name)",
-                    "COSTS (Pricing details)",
-                    "UNLIKE (Primary competitive alternative)"
-                ],
-                correct: 2
-            },
-            {
-                id: 27,
-                unit: "Unit 4",
-                question: "What makes a 'good' success metric?",
-                options: [
-                    "It's easy to measure",
-                    "It has direction, is understandable, actionable, and provides visibility into performance",
-                    "It shows large numbers",
-                    "It matches what competitors measure"
-                ],
-                correct: 1
-            },
-            {
-                id: 28,
-                unit: "Unit 4",
-                question: "Which of the following is an example of a 'vanity metric'?",
-                options: [
-                    "Customer retention rate",
-                    "Net Promoter Score (NPS)",
-                    "Number of app downloads",
-                    "Monthly recurring revenue"
-                ],
-                correct: 2
-            },
-            {
-                id: 29,
-                unit: "Unit 4",
-                question: "When advocating for a solution, the Product Outcome Canvas is used to:",
-                options: [
-                    "Replace the need for a business case",
-                    "Give stakeholders all information needed to make decisions about the product",
-                    "Document technical specifications",
-                    "Track project timelines"
-                ],
-                correct: 1
-            },
-            {
-                id: 30,
-                unit: "Unit 5",
-                question: "An outcome-based roadmap should focus on:",
-                options: [
-                    "Detailed feature specifications",
-                    "Outcomes rather than outputs",
-                    "Exact delivery dates for all features",
-                    "Individual developer assignments"
-                ],
-                correct: 1
-            },
-            {
-                id: 31,
-                unit: "Unit 5",
-                question: "What do the NOW, NEXT, LATER timeframes on a roadmap represent?",
-                options: [
-                    "Mandatory deadlines that cannot change",
-                    "Levels of confidence and approximate time horizons",
-                    "Priority rankings from stakeholders",
-                    "Development team capacity"
-                ],
-                correct: 1
-            },
-            {
-                id: 32,
-                unit: "Unit 5",
-                question: "What is the typical confidence level and timeframe for items in the 'NOW' bucket?",
-                options: [
-                    ">70% confidence, ~6 months",
-                    "50% confidence, 1-2 years",
-                    "<30% confidence, 3-5 years",
-                    "100% confidence, 1 month"
-                ],
-                correct: 0
-            },
-            {
-                id: 33,
-                unit: "Unit 5",
-                question: "What is the purpose of 'Tiny Acts of Discovery'?",
-                options: [
-                    "To delay product development",
-                    "Small, low-risk experiments to validate assumptions",
-                    "To avoid making decisions",
-                    "To replace the Build-Measure-Learn loop"
-                ],
-                correct: 1
-            },
-            {
-                id: 34,
-                unit: "Unit 5",
-                question: "The KANO Model identifies five ways customers could react to a feature. Which is NOT one of them?",
-                options: [
-                    "Must Have",
-                    "Delighter",
-                    "Nice to Have",
-                    "Indifference",
-                    "Could Have"
-                ],
-                correct: 4
-            },
-            {
-                id: 35,
-                unit: "Unit 5",
-                question: "In the WSJF (Weighted Shortest Job First) prioritization model, Cost of Delay is calculated as:",
-                options: [
-                    "(Business Value) / (Job Duration)",
-                    "(Business Value + Time Criticality + Risk Reduction) / Job Duration",
-                    "(Impact × Confidence) / Effort",
-                    "(Reach × Impact × Confidence) / Effort"
-                ],
-                correct: 1
-            },
-            {
-                id: 36,
-                unit: "Unit 5",
-                question: "The RICE prioritization model stands for:",
-                options: [
-                    "Revenue, Impact, Cost, Effort",
-                    "Reach, Impact, Confidence, Effort",
-                    "Risk, Innovation, Customer value, Engagement",
-                    "Return, Investment, Capability, Execution"
-                ],
-                correct: 1
-            },
-            {
-                id: 37,
-                unit: "Unit 5",
-                question: "Which prioritization framework explicitly includes 'Advantage to Us' as a factor?",
-                options: [
-                    "KANO",
-                    "WSJF",
-                    "RICE",
-                    "IDEA/E"
-                ],
-                correct: 3
-            },
-            {
-                id: 38,
-                unit: "Unit 5",
-                question: "What is the purpose of Launch Readiness programs?",
-                options: [
-                    "To delay product launch until everything is perfect",
-                    "To minimize post-launch risk and maximize success",
-                    "To create detailed project plans",
-                    "To assign blame if the launch fails"
-                ],
-                correct: 1
-            },
-            {
-                id: 39,
-                unit: "Unit 5",
-                question: "A Dark Launch is:",
-                options: [
-                    "Launching at night to avoid attention",
-                    "Releasing new features to a small percentage of customers to understand response",
-                    "A failed product launch",
-                    "Launching without any marketing"
-                ],
-                correct: 1
-            },
-            {
-                id: 40,
-                unit: "Unit 5",
-                question: "Match each 'Dangerous Animal' of product management with their characteristic behavior:",
-                type: "matching",
-                items: [
-                    { id: "1", label: "HiPPO" },
-                    { id: "2", label: "RHiNO" },
-                    { id: "3", label: "ZEbRA" },
-                    { id: "4", label: "WoLF" }
-                ],
-                descriptions: [
-                    { id: "A", text: "Obsessed with a particular feature, often from Sales" },
-                    { id: "B", text: "Highest Paid Person's Opinion - wants to call the shots" },
-                    { id: "C", text: "Works on Latest Fire - dealing with unpaid technical debt" },
-                    { id: "D", text: "Zero Evidence but Really Arrogant - relies on gut feeling" }
-                ],
-                correct: { "1": "B", "2": "A", "3": "D", "4": "C" }
-            },
-            {
-                id: 41,
-                unit: "Unit 5",
-                question: "The three pillars of Launch Readiness are:",
-                options: [
-                    "Product, Market, Sales",
-                    "Product Readiness, Market Readiness, Organizational Readiness",
-                    "Planning, Execution, Measurement",
-                    "Discovery, Development, Delivery"
-                ],
-                correct: 1
-            },
-            {
-                id: 42,
-                unit: "Unit 5",
-                question: "In Go-To-Market strategy, 'Key Messages' should focus on:",
-                options: [
-                    "Technical specifications",
-                    "Benefits, not features",
-                    "Competitor weaknesses",
-                    "Pricing details"
-                ],
-                correct: 1
-            },
-            {
-                id: 43,
-                unit: "Unit 5",
-                question: "What provides the 'reason to believe' in your Go-To-Market messaging?",
-                options: [
-                    "Key Messages",
-                    "Proof Points",
-                    "Positioning Statements",
-                    "Value Propositions"
-                ],
-                correct: 1
-            },
-            {
-                id: 44,
-                unit: "Unit 6",
-                question: "Health Metrics monitor which four areas?",
-                options: [
-                    "Revenue, Profit, Growth, Market Share",
-                    "Depth, Breadth, Frequency, Sentiment",
-                    "Acquisition, Activation, Retention, Revenue",
-                    "Users, Sessions, Engagement, Conversion"
-                ],
-                correct: 1
-            },
-            {
-                id: 45,
-                unit: "Unit 6",
-                question: "What is the relationship between Outcomes, Success Metrics, and Health Metrics?",
-                options: [
-                    "They are all the same thing",
-                    "Outcomes = what we want; Success Metrics = how closely we track to outcomes; Health Metrics = things to monitor to ensure we don't fail",
-                    "Health Metrics lead to Success Metrics which lead to Outcomes",
-                    "Only Health Metrics matter post-launch"
-                ],
-                correct: 1
-            },
-            {
-                id: 46,
-                unit: "Unit 6",
-                question: "Continuous Discovery involves returning to which stage of the Productside Blueprint?",
-                options: [
-                    "Create",
-                    "Deliver",
-                    "Discover and Investigate",
-                    "Define"
-                ],
-                correct: 2
-            },
-            {
-                id: 47,
-                unit: "Unit 6",
-                question: "When a stakeholder asks you to 'say no' to a request, what is the recommended framework?",
-                options: [
-                    "Just say 'no' immediately",
-                    "Listen, recap, reframe as outcome, frame trade-offs, then say no or not right now",
-                    "Agree to everything to maintain relationships",
-                    "Redirect them to your manager"
-                ],
-                correct: 1
-            },
-            {
-                id: 48,
-                unit: "Unit 6",
-                question: "When should you start thinking about a product's End of Life?",
-                options: [
-                    "Only when sales decline",
-                    "When competitors launch similar products",
-                    "When first developing the product",
-                    "Never - products should last forever"
-                ],
-                correct: 2
-            },
-            {
-                id: 49,
-                unit: "Unit 6",
-                question: "A Process Retrospective is used to:",
-                options: [
-                    "Assign blame for failures",
-                    "Reflect on what went well, what could improve, and what to do differently in future",
-                    "Document product features",
-                    "Plan the next sprint"
-                ],
-                correct: 1
-            },
-            {
-                id: 50,
-                unit: "Unit 6",
-                question: "The goal of managing End of Life is to balance:",
-                options: [
-                    "Customer goals and company goals",
-                    "Revenue and costs",
-                    "Old products and new products",
-                    "Internal and external stakeholders"
-                ],
-                correct: 0
-            }
-        ];
-
-        let startTime;
-        let timerInterval;
-        let userAnswers = {};
-
-        function startExam() {
-            document.getElementById('intro').classList.add('hidden');
-            document.getElementById('exam-content').classList.remove('hidden');
-            renderQuestions();
-            startTimer();
-        }
-
-        function renderQuestions() {
-            const container = document.getElementById('questions-container');
-            container.innerHTML = '';
-
-            questions.forEach((q, index) => {
-                const card = document.createElement('div');
-                card.className = 'question-card';
-                card.style.animationDelay = `${index * 0.05}s`;
-
-                if (q.type === 'matching') {
-                    card.innerHTML = `
-                        <div class="question-header">
-                            <div class="question-number">Question ${q.id}</div>
-                            <div class="unit-badge">${q.unit}</div>
-                        </div>
-                        <div class="question-text">${q.question}</div>
-                        <div class="matching-section">
-                            ${q.items.map(item => `
-                                <div class="match-pair">
-                                    <span class="match-number">${item.id}. ${item.label} →</span>
-                                    <select id="q${q.id}_${item.id}" onchange="updateProgress()">
-                                        <option value="">Select answer...</option>
-                                        ${q.descriptions.map(desc => 
-                                            `<option value="${desc.id}">${desc.id}. ${desc.text}</option>`
-                                        ).join('')}
-                                    </select>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                } else {
-                    card.innerHTML = `
-                        <div class="question-header">
-                            <div class="question-number">Question ${q.id}</div>
-                            <div class="unit-badge">${q.unit}</div>
-                        </div>
-                        <div class="question-text">${q.question}</div>
-                        <div class="options">
-                            ${q.options.map((option, i) => `
-                                <div class="option">
-                                    <input type="radio" 
-                                           id="q${q.id}_${i}" 
-                                           name="q${q.id}" 
-                                           value="${i}"
-                                           onchange="updateProgress()">
-                                    <label for="q${q.id}_${i}">${option}</label>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
-
-                container.appendChild(card);
-            });
-        }
-
-        function startTimer() {
-            startTime = Date.now();
-            timerInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const remaining = Math.max(0, 5400 - elapsed); // 90 minutes
-                const minutes = Math.floor(remaining / 60);
-                const seconds = remaining % 60;
-                document.getElementById('timer').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (remaining === 0) {
-                    clearInterval(timerInterval);
-                    alert('Time is up! Submitting your exam...');
-                    submitExam();
-                }
-            }, 1000);
-        }
-
-        function updateProgress() {
-            let answered = 0;
-            
-            questions.forEach(q => {
-                if (q.type === 'matching') {
-                    const allAnswered = q.items.every(item => {
-                        const select = document.getElementById(`q${q.id}_${item.id}`);
-                        return select && select.value !== '';
-                    });
-                    if (allAnswered) answered++;
-                } else {
-                    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
-                    if (selected) answered++;
-                }
-            });
-
-            const progress = (answered / questions.length) * 100;
-            document.getElementById('progress').style.width = `${progress}%`;
-            document.getElementById('answered-count').textContent = answered;
-        }
-
-        function submitExam() {
-            clearInterval(timerInterval);
-            
-            // Collect answers
-            userAnswers = {};
-            questions.forEach(q => {
-                if (q.type === 'matching') {
-                    userAnswers[q.id] = {};
-                    q.items.forEach(item => {
-                        const select = document.getElementById(`q${q.id}_${item.id}`);
-                        userAnswers[q.id][item.id] = select ? select.value : '';
-                    });
-                } else {
-                    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
-                    userAnswers[q.id] = selected ? parseInt(selected.value) : null;
-                }
-            });
-
-            // Calculate score
-            let correct = 0;
-            questions.forEach(q => {
-                if (q.type === 'matching') {
-                    let allCorrect = true;
-                    q.items.forEach(item => {
-                        if (userAnswers[q.id][item.id] !== q.correct[item.id]) {
-                            allCorrect = false;
-                        }
-                    });
-                    if (allCorrect) correct++;
-                } else {
-                    if (userAnswers[q.id] === q.correct) correct++;
-                }
-            });
-
-            displayResults(correct);
-        }
-
-        function displayResults(correct) {
-            const percentage = Math.round((correct / questions.length) * 100);
-            
-            document.getElementById('exam-content').classList.add('hidden');
-            document.getElementById('results').style.display = 'block';
-
-            const scoreDisplay = document.getElementById('score-display');
-            scoreDisplay.textContent = `${correct} / 50 (${percentage}%)`;
-
-            let scoreClass, feedback;
-            if (percentage >= 90) {
-                scoreClass = 'score-excellent';
-                feedback = '🎉 Excellent! You have a strong grasp of the material and are well-prepared for the certification exam!';
-            } else if (percentage >= 70) {
-                scoreClass = 'score-good';
-                feedback = '👍 Good work! You\'re ready to pass, but review the questions you missed to strengthen your knowledge.';
-            } else if (percentage >= 50) {
-                scoreClass = 'score-needs-work';
-                feedback = '📚 You need more study time. Focus on the units where you struggled and review the study materials thoroughly.';
-            } else {
-                scoreClass = 'score-poor';
-                feedback = '⚠️ Significant preparation needed. Please review all study materials thoroughly before attempting the exam.';
-            }
-
-            scoreDisplay.className = `score-display ${scoreClass}`;
-            document.getElementById('feedback').textContent = feedback;
-        }
-
-        function reviewAnswers() {
-            const reviewSection = document.getElementById('review');
-            reviewSection.classList.remove('hidden');
-            reviewSection.innerHTML = '<h3 style="font-family: Spectral, serif; color: var(--primary); margin-bottom: 1.5rem;">Answer Review</h3>';
-
-            questions.forEach(q => {
-                const div = document.createElement('div');
-                let isCorrect;
-
-                if (q.type === 'matching') {
-                    isCorrect = true;
-                    q.items.forEach(item => {
-                        if (userAnswers[q.id][item.id] !== q.correct[item.id]) {
-                            isCorrect = false;
-                        }
-                    });
-
-                    let matchingDetails = '<ul style="margin-top: 0.5rem;">';
-                    q.items.forEach(item => {
-                        const userAns = userAnswers[q.id][item.id];
-                        const correctAns = q.correct[item.id];
-                        const match = userAns === correctAns;
-                        matchingDetails += `<li>${item.id}. ${item.label} → ${userAns || 'Not answered'} ${match ? '✓' : '✗ (Correct: ' + correctAns + ')'}</li>`;
-                    });
-                    matchingDetails += '</ul>';
-
-                    div.className = `review-item ${isCorrect ? 'review-correct' : 'review-incorrect'}`;
-                    div.innerHTML = `
-                        <strong>Question ${q.id}:</strong> ${q.question}
-                        ${matchingDetails}
-                    `;
-                } else {
-                    isCorrect = userAnswers[q.id] === q.correct;
-                    div.className = `review-item ${isCorrect ? 'review-correct' : 'review-incorrect'}`;
-                    div.innerHTML = `
-                        <strong>Question ${q.id}:</strong> ${q.question}<br>
-                        <strong>Your answer:</strong> ${userAnswers[q.id] !== null ? q.options[userAnswers[q.id]] : 'Not answered'}<br>
-                        ${!isCorrect ? `<strong>Correct answer:</strong> ${q.options[q.correct]}` : ''}
-                    `;
-                }
-
-                reviewSection.appendChild(div);
-            });
-
-            reviewSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
 </body>
 </html>

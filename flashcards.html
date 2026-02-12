@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIPMM Study Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0891b2;
+            --secondary: #0e7490;
+            --accent: #f97316;
+            --success: #059669;
+            --bg: #ecfeff;
+            --card-bg: #ffffff;
+            --border: #a5f3fc;
+            --text: #164e63;
+            --text-light: #0e7490;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Spectral', serif;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .shuffle-btn {
+            padding: 0.6rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .shuffle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(8, 145, 178, 0.1);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .progress-track {
+            height: 12px;
+            background: var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin-bottom: 2rem;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(8, 145, 178, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .card-back {
+            background: var(--card-bg);
+            color: var(--text);
+            transform: rotateY(180deg);
+        }
+
+        .card-label {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .card-unit {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            font-size: 1.6rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .card-back .card-content {
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-prev {
+            background: var(--text-light);
+            color: white;
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            background: var(--primary);
+            transform: translateX(-4px);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+        }
+
+        .knowledge-tracker {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(8, 145, 178, 0.1);
+        }
+
+        .tracker-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .knowledge-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .knowledge-btn {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-know {
+            border-color: var(--success);
+            color: var(--success);
+            background: white;
+        }
+
+        .btn-know:hover {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-review {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: white;
+        }
+
+        .btn-review:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(8, 145, 178, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Spectral', serif;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .flashcard {
+                height: 350px;
+            }
+
+            .card-content {
+                font-size: 1.3rem;
+            }
+
+            .card-back .card-content {
+                font-size: 1.1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .filter-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .knowledge-buttons {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Study Flashcards</h1>
+            <p class="subtitle">Master AIPMM concepts with interactive flashcards</p>
+        </div>
+
+        <div class="controls">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterUnit('all')">All Units</button>
+                <button class="filter-btn" onclick="filterUnit(1)">Unit 1</button>
+                <button class="filter-btn" onclick="filterUnit(2)">Unit 2</button>
+                <button class="filter-btn" onclick="filterUnit(3)">Unit 3</button>
+                <button class="filter-btn" onclick="filterUnit(4)">Unit 4</button>
+                <button class="filter-btn" onclick="filterUnit(5)">Unit 5</button>
+                <button class="filter-btn" onclick="filterUnit(6)">Unit 6</button>
+            </div>
+            <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-text">Card <span id="current">1</span> of <span id="total">0</span></div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="card-face card-front">
+                    <div class="card-label">QUESTION</div>
+                    <div class="card-unit" id="unit-front"></div>
+                    <div class="card-content" id="question"></div>
+                    <div class="flip-hint">Click to reveal answer</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-label">ANSWER</div>
+                    <div class="card-unit" id="unit-back"></div>
+                    <div class="card-content" id="answer"></div>
+                    <div class="flip-hint">Click to see question</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn btn-prev" id="prev-btn" onclick="previousCard()">
+                ← Previous
+            </button>
+            <button class="nav-btn btn-next" id="next-btn" onclick="nextCard()">
+                Next →
+            </button>
+        </div>
+
+        <div class="knowledge-tracker">
+            <div class="tracker-title">How well do you know this?</div>
+            <div class="knowledge-buttons">
+                <button class="knowledge-btn btn-know" onclick="markCard('know')">
+                    ✓ I Know This
+                </button>
+                <button class="knowledge-btn btn-review" onclick="markCard('review')">
+                    ? Need Review
+                </button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-total">0</div>
+                <div class="stat-label">Total Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-known">0</div>
+                <div class="stat-label">Known</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-review">0</div>
+                <div class="stat-label">Need Review</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            // Unit 1
+            {unit: 1, q: "What is the primary responsibility of a Product Manager?", a: "Ensuring the product brings value to users and the company"},
+            {unit: 1, q: "What's the key difference between Product Manager and Product Owner?", a: "PM focuses on Discovery (business case, competitive analysis, pricing). PO focuses on Delivery (prioritizing outputs, backlog refinement, dev team collaboration)"},
+            {unit: 1, q: "What are the two axes in the Stakeholder Alignment Template?", a: "X-axis: Level of interest in the project. Y-axis: Level of power to influence the project"},
+            {unit: 1, q: "Can products move linearly through the Product Lifecycle?", a: "No! Products can go through each phase (Introduction, Growth, Maturity, Decline) multiple times. It's NOT linear."},
+            {unit: 1, q: "What are the three elements of Product-Market Fit?", a: "Value (do customers want this?), Feasible (can we do this?), Viable (should we do this?)"},
+            {unit: 1, q: "What's the difference between Outputs and Outcomes?", a: "Outputs are deliverables/features. Outcomes are the results or impacts of those deliverables."},
+            {unit: 1, q: "What is the Productside Blueprint?", a: "An outcome-driven product management process applicable at every stage of the Product Lifecycle"},
+            {unit: 1, q: "How often should you update the Stakeholder Alignment Template?", a: "Every 4-6 weeks"},
+
+            // Unit 2
+            {unit: 2, q: "What are Business Outcomes?", a: "Measurable company goals that align with strategic vision/mission. They provide direction without prescribing a specific solution."},
+            {unit: 2, q: "What are the four quadrants of the Ansoff Growth Matrix?", a: "Market Penetration (existing/existing), Product Development (new/existing), Market Development (existing/new), Diversification (new/new)"},
+            {unit: 2, q: "What does PESTEL stand for?", a: "Political, Economic, Social, Technological, Environmental, Legal - factors that impact your market"},
+            {unit: 2, q: "What is the relationship between TAM, SAM, and SOM?", a: "TAM (Total Addressable Market) > SAM (Serviceable Addressable Market) > SOM (Serviceable Obtainable Market)"},
+            {unit: 2, q: "Which Ansoff strategy has the highest risk?", a: "Diversification - delivering a completely new value proposition to new markets"},
+            {unit: 2, q: "What should Business Outcomes NOT include?", a: "They should NOT prescribe a particular solution. They set direction, not the journey."},
+
+            // Unit 3
+            {unit: 3, q: "What four elements should a Product Outcome statement include?", a: "Direction, Metrics, Outcomes, and Context"},
+            {unit: 3, q: "What are the three types of Jobs to be Done?", a: "Functional Jobs (help me do...), Social Jobs (help me seem...), Emotional Jobs (help me feel...)"},
+            {unit: 3, q: "What's the difference between a Segment and a Persona?", a: "Segments tell you WHERE your customers are. Personas tell you WHO your customers are."},
+            {unit: 3, q: "What's the ideal listening-to-talking ratio in Empathy Interviews?", a: "70% listening, 30% talking. Focus on understanding, not talking!"},
+            {unit: 3, q: "What is a proto-persona?", a: "A market-unvalidated persona that must be validated with research before widespread use"},
+            {unit: 3, q: "From whose perspective should a problem statement be written?", a: "From a persona's perspective (not the PM, dev team, or executives)"},
+            {unit: 3, q: "What are the five elements of a problem statement?", a: "I am [persona], Trying to [goal], But [obstacle], Because [reason], Which makes me feel [emotion]"},
+
+            // Unit 4
+            {unit: 4, q: "What are 'How Might We' questions used for?", a: "To provoke creativity and reframe problems into challenges that motivate action"},
+            {unit: 4, q: "What framework do Solution Hypotheses use?", a: "If...Then... framework to communicate customer benefit"},
+            {unit: 4, q: "What are the key traits of Lo-Fi Experiments?", a: "Low cost, tells a story about the product, provides measurable outcomes without heavy investment"},
+            {unit: 4, q: "What's the difference between Concierge Test and Wizard of Oz Test?", a: "Concierge: service offered manually (users know). Wizard of Oz: manual but hidden from users."},
+            {unit: 4, q: "What are the three main pricing strategies?", a: "Cost-Based (ensure profitability), Competition-Based (match market), Value-Based (customer willingness to pay)"},
+            {unit: 4, q: "What makes a 'good' success metric?", a: "Has direction, is understandable, actionable, and provides visibility into performance"},
+            {unit: 4, q: "What's a vanity metric?", a: "A metric that's easy to inflate and not actionable (like app downloads or page views)"},
+
+            // Unit 5
+            {unit: 5, q: "What should outcome-based roadmaps focus on?", a: "Outcomes rather than outputs. Show what you want to achieve, not just what you'll build."},
+            {unit: 5, q: "What do NOW, NEXT, LATER timeframes represent on a roadmap?", a: "Levels of confidence and approximate time horizons (NOW: >70%, ~6mo; NEXT: 50%, 1-2yr; LATER: <30%, 3-5yr)"},
+            {unit: 5, q: "What are Tiny Acts of Discovery?", a: "Small, low-risk experiments to validate assumptions quickly and cheaply"},
+            {unit: 5, q: "What does RICE stand for in prioritization?", a: "Reach × Impact × Confidence / Effort"},
+            {unit: 5, q: "What does WSJF stand for?", a: "Weighted Shortest Job First. Formula: (Business Value + Time Criticality + Risk Reduction) / Job Duration"},
+            {unit: 5, q: "Which prioritization framework includes 'Advantage to Us'?", a: "IDEA/E (Impact, Dissatisfaction, Evidence, Advantage, Effort)"},
+            {unit: 5, q: "What are the three pillars of Launch Readiness?", a: "Product Readiness, Market Readiness, Organizational Readiness"},
+            {unit: 5, q: "What is a Dark Launch?", a: "Releasing new features to a small percentage of customers to understand user response"},
+            {unit: 5, q: "What do the 'Dangerous Animals' represent?", a: "HiPPO (Highest Paid Person), RHiNO (Really High-value New Opportunity), ZEbRA (Zero Evidence but Arrogant), WoLF (Works on Latest Fire)"},
+            {unit: 5, q: "What should Key Messages focus on in GTM?", a: "Benefits, not features. Answer 'why does this matter to me?'"},
+
+            // Unit 6
+            {unit: 6, q: "What four areas do Health Metrics monitor?", a: "Depth (feature usage), Breadth (user count), Frequency (usage frequency), Sentiment (customer feeling)"},
+            {unit: 6, q: "What's the relationship between Outcomes, Success Metrics, and Health Metrics?", a: "Outcomes = what we want to achieve. Success Metrics = how closely we track to outcomes. Health Metrics = things to monitor so we don't fail."},
+            {unit: 6, q: "What stage does Continuous Discovery return to?", a: "Discover and Investigate stage of the Productside Blueprint"},
+            {unit: 6, q: "What's the framework for saying 'no' to stakeholders?", a: "Listen → Recap → Reframe as outcome → Frame trade-offs → Say no or not right now"},
+            {unit: 6, q: "When should you start thinking about End of Life?", a: "When first developing the product! Not when sales decline."},
+            {unit: 6, q: "What is a Process Retrospective used for?", a: "To reflect on what went well, what could improve, and what to do differently in future"},
+            {unit: 6, q: "What does HiPPO stand for?", a: "Highest Paid Person's Opinion - wants to call the shots without data"},
+            {unit: 6, q: "How do you handle a HiPPO?", a: "Depersonalize the discussion and bring it back to data. Ask if they have additional info you don't know about."},
+            {unit: 6, q: "What's the goal of managing End of Life?", a: "Balance customer goals (maintaining loyalty, meeting needs) with company goals (exit market while meeting obligations)"}
+        ];
+
+        let currentCardIndex = 0;
+        let filteredCards = [...flashcards];
+        let knownCards = new Set();
+        let reviewCards = new Set();
+        let isFlipped = false;
+
+        function initializeFlashcards() {
+            updateStats();
+            showCard(0);
+        }
+
+        function showCard(index) {
+            if (filteredCards.length === 0) {
+                document.getElementById('question').textContent = 'No cards available for this filter';
+                document.getElementById('answer').textContent = 'Try selecting a different unit';
+                return;
+            }
+
+            currentCardIndex = index;
+            const card = filteredCards[index];
+            
+            document.getElementById('question').textContent = card.q;
+            document.getElementById('answer').textContent = card.a;
+            document.getElementById('unit-front').textContent = `Unit ${card.unit}`;
+            document.getElementById('unit-back').textContent = `Unit ${card.unit}`;
+            
+            document.getElementById('current').textContent = index + 1;
+            document.getElementById('total').textContent = filteredCards.length;
+            
+            const progress = ((index + 1) / filteredCards.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').disabled = index === filteredCards.length - 1;
+            
+            // Reset flip
+            document.getElementById('flashcard').classList.remove('flipped');
+            isFlipped = false;
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            if (currentCardIndex < filteredCards.length - 1) {
+                showCard(currentCardIndex + 1);
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                showCard(currentCardIndex - 1);
+            }
+        }
+
+        function filterUnit(unit) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter cards
+            if (unit === 'all') {
+                filteredCards = [...flashcards];
+            } else {
+                filteredCards = flashcards.filter(card => card.unit === unit);
+            }
+            
+            updateStats();
+            showCard(0);
+        }
+
+        function shuffleCards() {
+            for (let i = filteredCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [filteredCards[i], filteredCards[j]] = [filteredCards[j], filteredCards[i]];
+            }
+            showCard(0);
+        }
+
+        function markCard(type) {
+            const cardId = `${filteredCards[currentCardIndex].unit}-${currentCardIndex}`;
+            
+            if (type === 'know') {
+                knownCards.add(cardId);
+                reviewCards.delete(cardId);
+            } else {
+                reviewCards.add(cardId);
+                knownCards.delete(cardId);
+            }
+            
+            updateStats();
+            
+            // Auto advance to next card
+            if (currentCardIndex < filteredCards.length - 1) {
+                setTimeout(() => nextCard(), 300);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('stat-total').textContent = filteredCards.length;
+            document.getElementById('stat-known').textContent = knownCards.size;
+            document.getElementById('stat-review').textContent = reviewCards.size;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                flipCard();
+            }
+            if (e.key === '1') markCard('know');
+            if (e.key === '2') markCard('review');
+        });
+
+        // Initialize on load
+        initializeFlashcards();
+    </script>
+</body>
+</html>
